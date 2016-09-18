@@ -20,9 +20,14 @@ defmodule Mazing.Graph do
     %Graph{ g | edges: g.edges ++ [edge]}
   end
 
+  def add_edges(%Graph{} = g, edges) do
+    %Graph{ g | edges: g.edges ++ edges}
+  end
+
   def add_edge(%Graph{} = g, %Node{} = n1, %Node{} = n2) do
     add_edge(g, Edge.new(n1, n2))
   end
+
 
   def count_edges(g) do
     length(g.edges)
@@ -57,7 +62,7 @@ defmodule Mazing.Graph do
   def wall_for_node(g, node) do
     top = if node.y == 1 do "‾" else " " end
     left = if node.x == 1 do "|" else "" end
-    right = if has_edge?(g, node, %Node{ y: node.y, x: node.x + 1}) do "¯" else "|" end
+    right = if has_edge?(g, node, %Node{ y: node.y, x: node.x + 1}) do " " else "|" end
     "#{left}#{top}#{right}"
   end
 
@@ -67,10 +72,24 @@ defmodule Mazing.Graph do
     |> Enum.join("")
   end
 
+  # assuming square grid
+  def size(%Graph{} = g) do
+    g.nodes
+    |> length
+    |> :math.sqrt
+    |> round
+  end
+
   def bottom_for_node(g, node) do
     left  = if node.x == 1 do "+" else "" end
     bottom = if has_edge?(g, node, %Node{x: node.x, y: node.y + 1}) do " " else "-" end
      "#{left}#{bottom}+"
+  end
+
+  def neighbors(%Graph{} = g, %Node{} = node) do
+    right = if (node.x) < size(g) do [%Node{x: node.x+1, y: node.y}] else [] end
+    bottom = if (node.y) < size(g) do [%Node{x: node.x, y: node.y+1}] else [] end
+    right ++ bottom
   end
 
   def render_row_bottoms(g, row) do

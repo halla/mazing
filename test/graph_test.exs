@@ -47,4 +47,18 @@ defmodule Mazing.GraphTest do
     assert has_edge?(g2, n1, n2) == true
   end
 
+  test "1x1 grid node has no neighbors" do
+    g = square_grid(1)
+    assert neighbors(g, List.last(g.nodes)) == []
+  end
+
+  test "2x2 grid last node has no neighbors" do
+    g = square_grid(2)
+    assert length(neighbors(g, List.last(g.nodes))) == 0
+  end
+
+  test "2x2 grid first node has tw neighbors" do
+    g = square_grid(2)
+    assert length(neighbors(g, Enum.at(g.nodes, 0))) == 2
+  end
 end
