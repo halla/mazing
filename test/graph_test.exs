@@ -42,8 +42,9 @@ defmodule Mazing.GraphTest do
     {n1, n2} = { Enum.at(g.nodes, 0), Enum.at(g.nodes, 1)}
     g2 = add_edge(g, n1, n2)
     es = edges(g2, n1)
+
     assert length(es) == 1
-    
+    assert has_edge?(g2, n1, n2) == true
   end
 
 end

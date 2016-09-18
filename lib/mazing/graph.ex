@@ -41,7 +41,40 @@ defmodule Mazing.Graph do
       |> Enum.filter(&(MapSet.member? &1.nodes, node))
   end
 
-  def render_ascii(g) do
+  def has_edge?(g, n1, n2) do
+      Enum.any? g.edges, &(&1 == Edge.new(n1,n2))
+  end
 
+  def render_ascii(g) do
+    #rows = as_rows(g)
+    rows = Enum.group_by(g.nodes, &(&1.y))
+    for {_j, r} <- rows do
+      IO.puts render_row_walls(r)
+      IO.puts render_row_bottoms(r)
+    end
+  end
+
+  def wall_for_node(node) do
+    top = if node.y == 1 do "‾" else " " end
+    left = if node.x == 1 do "|" else "" end
+    "#{left}#{top}|"
+  end
+  
+  def render_row_walls(row) do
+    row
+    |> Enum.map(&(wall_for_node &1))
+    |> Enum.join("")
+  end
+
+  def render_row_bottoms(row) do
+    row
+    |> Enum.map(fn(x) -> if x.x == 1 do "+-+" else "-+" end end)
+    |> Enum.join("")
+  end
+
+  def as_rows(g) do
+    for n <- g.nodes do
+      { n.y, n}
+    end
   end
 end
