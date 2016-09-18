@@ -29,7 +29,7 @@ defmodule Mazing.Graph do
   end
 
   def square_grid(n) do
-    nodes = for x <- 1..n, y <- 1..n do
+    nodes = for y <- 1..n, x <- 1..n  do
       %Node{ x: x, y: y}
     end
     %Graph{}
@@ -49,26 +49,33 @@ defmodule Mazing.Graph do
     #rows = as_rows(g)
     rows = Enum.group_by(g.nodes, &(&1.y))
     for {_j, r} <- rows do
-      IO.puts render_row_walls(r)
-      IO.puts render_row_bottoms(r)
+      IO.puts render_row_walls(g, r)
+      IO.puts render_row_bottoms(g, r)
     end
   end
 
-  def wall_for_node(node) do
+  def wall_for_node(g, node) do
     top = if node.y == 1 do "‾" else " " end
     left = if node.x == 1 do "|" else "" end
-    "#{left}#{top}|"
+    right = if has_edge?(g, node, %Node{ y: node.y, x: node.x + 1}) do "¯" else "|" end
+    "#{left}#{top}#{right}"
   end
-  
-  def render_row_walls(row) do
+
+  def render_row_walls(g, row) do
     row
-    |> Enum.map(&(wall_for_node &1))
+    |> Enum.map(&(wall_for_node g, &1))
     |> Enum.join("")
   end
 
-  def render_row_bottoms(row) do
+  def bottom_for_node(g, node) do
+    left  = if node.x == 1 do "+" else "" end
+    bottom = if has_edge?(g, node, %Node{x: node.x, y: node.y + 1}) do " " else "-" end
+     "#{left}#{bottom}+"
+  end
+
+  def render_row_bottoms(g, row) do
     row
-    |> Enum.map(fn(x) -> if x.x == 1 do "+-+" else "-+" end end)
+    |> Enum.map(fn(x) -> bottom_for_node(g, x) end)
     |> Enum.join("")
   end
 
