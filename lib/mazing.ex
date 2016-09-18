@@ -1,0 +1,2 @@
+defmodule Mazing do
+end
