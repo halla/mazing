@@ -61,4 +61,10 @@ defmodule Mazing.GraphTest do
     g = square_grid(2)
     assert length(neighbors(g, Enum.at(g.nodes, 0))) == 2
   end
+
+  test "as grid returns list of lists" do
+    g = square_grid(2)
+    g = as_grid(g)
+    IO.puts (inspect(g))
+  end
 end

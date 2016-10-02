@@ -3,6 +3,7 @@ defmodule Mazing.Graph do
   alias Mazing.Node
   alias Mazing.Edge
   alias Mazing.Graph
+  alias Mazing.Cell
 
   def add_node( %Graph{} = g, %Node{} = node) do
     %{ g | nodes: g.nodes ++ [node]}
@@ -57,16 +58,28 @@ defmodule Mazing.Graph do
       IO.puts render_row_walls(g, r)
       IO.puts render_row_bottoms(g, r)
     end
+    g
   end
 
-  def wall_for_node(g, node) do
+  def as_grid(g) do
+    rows = Enum.group_by(g.nodes, &(&1.y))
+    for {_j, r} <- rows do
+      Enum.map(r, &(as_cell(g, &1)))
+    end
+  end
+
+  def as_cell(%Graph{} = g, %Node{} = node) do
+    %Cell{top: has_neighbor(g, node, :top), right: has_neighbor(g, node, :right), bottom: has_neighbor(g, node, :bottom), left: has_neighbor(g, node, :left)}
+  end
+
+  defp wall_for_node(g, node) do
     top = if node.y == 1 do "‾" else " " end
     left = if node.x == 1 do "|" else "" end
     right = if has_edge?(g, node, %Node{ y: node.y, x: node.x + 1}) do " " else "|" end
     "#{left}#{top}#{right}"
   end
 
-  def render_row_walls(g, row) do
+  defp render_row_walls(g, row) do
     row
     |> Enum.map(&(wall_for_node g, &1))
     |> Enum.join("")
@@ -80,10 +93,26 @@ defmodule Mazing.Graph do
     |> round
   end
 
-  def bottom_for_node(g, node) do
+  defp bottom_for_node(g, node) do
     left  = if node.x == 1 do "+" else "" end
     bottom = if has_edge?(g, node, %Node{x: node.x, y: node.y + 1}) do " " else "-" end
      "#{left}#{bottom}+"
+  end
+
+  def has_neighbor(%Graph{} = g, %Node{} = node, :top) do
+     has_edge?(g, node, %Node{x: node.x, y: node.y - 1})
+  end
+
+  def has_neighbor(%Graph{} = g, %Node{} = node, :bottom) do
+     has_edge?(g, node, %Node{x: node.x, y: node.y + 1})
+  end
+
+  def has_neighbor(%Graph{} = g, %Node{} = node, :left) do
+     has_edge?(g, node, %Node{x: node.x - 1, y: node.y})
+  end
+
+  def has_neighbor(%Graph{} = g, %Node{} = node, :right) do
+     has_edge?(g, node, %Node{x: node.x + 1, y: node.y})
   end
 
   def neighbors(%Graph{} = g, %Node{} = node) do
@@ -92,7 +121,7 @@ defmodule Mazing.Graph do
     right ++ bottom
   end
 
-  def render_row_bottoms(g, row) do
+  defp render_row_bottoms(g, row) do
     row
     |> Enum.map(fn(x) -> bottom_for_node(g, x) end)
     |> Enum.join("")
