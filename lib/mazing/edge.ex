@@ -1,4 +1,9 @@
 defmodule Mazing.Edge do
+  @moduledoc """
+  Undirected edge -- a passage from one cell to another in the maze --
+  is represented as a MapSet, to eliminate duplicates and backward edges.
+  """
+
   defstruct nodes: MapSet.new
 
   alias Mazing.Node

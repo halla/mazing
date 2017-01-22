@@ -1,4 +1,8 @@
 defmodule Mazing.Maze do
+  @moduledoc"""
+  GenServer serving mazes on demand.
+  """
+
   use GenServer
   alias Mazing.Graph
   alias Mazing.Node
@@ -9,6 +13,9 @@ defmodule Mazing.Maze do
     GenServer.start_link(__MODULE__, :ok, name: :maze_server)
   end
 
+  @doc"""
+  Generate a square maze of size n.
+  """
   def generate_maze(server, n) do
     GenServer.call(server, {:generate_maze, n})
   end
@@ -37,6 +44,9 @@ defmodule Mazing.Maze do
     Graph.add_edges(g, edges)
   end
 
+  @doc """
+  Given a Graph and a Node, return a random Edge
+  """
   def random_neighbor_edge(g, %Node{} = n) do
     ns = Graph.neighbors(g, n)
     n2 = if ns == [] do nil else  Enum.random(ns) end
