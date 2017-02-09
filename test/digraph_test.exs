@@ -21,6 +21,13 @@ defmodule Mazing.DigraphTest do
     assert %{ 1 => adj1, 2 => adj2 } == g.adj
   end
 
+  test "add edge to nil returns original graph" do
+    g = Digraph.new(2)
+    g2 = Digraph.add_edge(g, 1, nil)
+    assert g == g2
+  end
+
+
   test "adjacency set is returned" do
     g = Digraph.new(2)
       |> Digraph.add_edge(1, 2)

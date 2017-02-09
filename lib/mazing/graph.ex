@@ -101,6 +101,9 @@ defmodule Mazing.Graph do
      has_edge?(g, node, %Node{x: node.x + 1, y: node.y})
   end
 
+  @doc """
+  Get neighbors in the grid, whether there is a path or not...
+  """
   def neighbors(%Graph{} = g, %Node{} = node) do
     right = if (node.x) < size(g) do [%Node{x: node.x+1, y: node.y}] else [] end
     bottom = if (node.y) < size(g) do [%Node{x: node.x, y: node.y+1}] else [] end

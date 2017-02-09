@@ -14,9 +14,9 @@ defmodule Mazing.Dfs do
       Enum.reduce Map.keys(g.adj), %{}, fn v, acc ->
         Map.put acc, v, nil
       end
-    prevs = put_in prevs[start], -1
+    prevs = put_in prevs[start], -1 # marker for first node
     seen = MapSet.new
-      |> MapSet.put start
+      |> MapSet.put(start)
     dfs(g, start, prevs, seen)
   end
 

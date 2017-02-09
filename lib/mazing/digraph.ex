@@ -23,6 +23,12 @@ defmodule Mazing.Digraph do
     %Digraph{ adj: adj }
   end
 
+
+
+  def add_edge(g, v, nil) do # to simplify grid building
+    g
+  end
+
   @doc """
   Add an (undirected) edge to graph
   """
@@ -48,10 +54,16 @@ defmodule Mazing.Digraph do
     Enum.count g.adj
   end
 
+  def vertices(g) do
+    Map.keys(g.adj)
+  end
+
   @doc """
   Number of edges
   """
   def e(g) do
 
   end
+
+
 end
