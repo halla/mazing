@@ -81,4 +81,8 @@ defmodule Mazing.GridTest do
     assert MapSet.size(Digraph.adj(g, Enum.at(Digraph.vertices(g), 0))) == 2
   end
 
+  test "5x5 grid 11 is top of 6" do
+    g = square_grid(5)
+    assert top(g, 6) == 11
+  end
 end

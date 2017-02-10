@@ -21,7 +21,7 @@ defmodule Mazing.Grid do
   """
   def square_grid(n) do
     g = Digraph.new(:math.pow(n,2) |> round)
-      |> build_edges()
+      #|> build_edges()
   end
 
   def build_edges(g) do
@@ -69,6 +69,15 @@ defmodule Mazing.Grid do
     y(g, v) < height(g) - 1
   end
 
+  def has_left(g, v) do
+    x(g, v) > 0
+  end
+
+  def has_bottom(g, v) do
+    y(g, v) > 0
+  end
+
+
   def right(g, v) do
     if has_right(g,v)
     do
@@ -85,5 +94,51 @@ defmodule Mazing.Grid do
     else
       nil
     end
+  end
+
+  def left(g, v) do
+    if has_left(g,v)
+    do
+      v - 1
+    else
+      nil
+    end
+  end
+
+  def bottom(g, v) do
+    if has_bottom(g, v)
+    do
+      v - width(g)
+    else
+      nil
+    end
+  end
+
+  def has_right_path(g, v) do
+    Digraph.has_edge(g, v, right(g, v))
+  end
+
+  def has_top_path(g, v) do
+    Digraph.has_edge(g, v, top(g, v))
+  end
+
+  def has_left_path(g, v) do
+    Digraph.has_edge(g, v, left(g, v))
+  end
+
+  def has_bottom_path(g, v) do
+    Digraph.has_edge(g, v, bottom(g, v))
+  end
+
+  @doc """
+  neighbor cells, whethere there is path or not.
+  """
+  def neighbor_cells(g, v) do
+    [top(g, v), right(g, v)]
+      |> Enum.reject(fn x -> x == nil end)
+  end
+
+  def rows(g) do
+    Enum.chunk Digraph.vertices(g), width(g)
   end
 end

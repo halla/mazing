@@ -41,6 +41,13 @@ defmodule Mazing.Digraph do
   end
 
   @doc """
+  Convinience method to allow tuples as edge definitions
+  """
+  def add_edge(g, {v, w}) do    
+    add_edge(g, v, w)
+  end
+
+  @doc """
   Get the adjacency set of a vertex
   """
   def adj(g, v) do
@@ -55,7 +62,7 @@ defmodule Mazing.Digraph do
   end
 
   def vertices(g) do
-    Map.keys(g.adj)
+    Enum.sort Map.keys(g.adj)
   end
 
   @doc """
@@ -65,5 +72,8 @@ defmodule Mazing.Digraph do
 
   end
 
-
+  def has_edge(g, v1, nil), do: false
+  def has_edge(g, v1, v2) do
+    MapSet.member?(adj(g, v1), v2)
+  end
 end
