@@ -8,6 +8,8 @@ defmodule Mazing.Dfs do
 
   @doc """
   Depth first search entry point for Digraph.
+
+  Returns a map V -> prev
   """
   def dfs(%Digraph{} = g, start) do
     prevs =
@@ -17,20 +19,25 @@ defmodule Mazing.Dfs do
     prevs = put_in prevs[start], -1 # marker for first node
     seen = MapSet.new
       |> MapSet.put(start)
-    dfs(g, start, prevs, seen)
+    neighbors = Digraph.adj(g, start)
+
+    acc = %{g: g, prevs: prevs, seen: seen, prev: start}
+    #IO.puts(inspect neighbors)
+    result = Enum.reduce(neighbors, acc, &dfs_reducer/2)
+    result.prevs
   end
 
-  def dfs(%Digraph{} = g, start, prevs, seen) do
-    neighbors = Digraph.adj(g, start)
+  def dfs_reducer(v,  %{g: g, seen: seen, prevs: prevs, prev: prev} = acc) do
     unseen? = fn v -> not (MapSet.member? seen, v) end
-    next = Enum.find(neighbors, unseen?)
 
-    if next == nil do
-      prevs
+    if (unseen?.(v)) do
+      seen = MapSet.put seen, v
+      prevs = put_in prevs[v], prev
+      neighbors = Digraph.adj(g, v)
+      Enum.reduce(neighbors, %{g: g, prevs: prevs, seen: seen, prev: v}, &dfs_reducer/2)
     else
-      prevs = put_in prevs[next], start
-      seen = MapSet.put seen, next
-      dfs(g, next, prevs, seen)
+      acc
+      
     end
   end
 

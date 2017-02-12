@@ -5,6 +5,9 @@ defmodule Mazing.DfsTest do
   alias Mazing.Graph
   alias Mazing.Digraph
   alias Mazing.Dfs
+  alias Mazing.Grid
+  alias Mazing.Maze
+
   require Logger
 
   test "testSomething" do
@@ -17,13 +20,14 @@ defmodule Mazing.DfsTest do
   end
 
   test "dfs finds connected nodes in digraph" do
-    g = Digraph.new(5)
-      |> Digraph.add_edge(1, 2)
+    g = Grid.square_grid(5)
+      |> Maze.binary_tree()
 
     s = 1
     dfs = Dfs.dfs(g, s)
-
     fully_traversed? = not (Enum.any? Map.values(dfs), fn x -> x == nil end)
     assert fully_traversed? == true
+    assert map_size(dfs) == 25
+
   end
 end
