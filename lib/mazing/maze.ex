@@ -9,11 +9,15 @@ defmodule Mazing.Maze do
   alias Mazing.Grid
   alias Mazing.Node
   alias Mazing.Edge
+  alias Mazing.Maze
+
+  defstruct graph: nil, objects: %{}
 
   def debug(x) do
     IO.puts (inspect x)
     x
   end
+
 
   # Client API
   def start_link() do
@@ -27,25 +31,67 @@ defmodule Mazing.Maze do
     GenServer.call(server, {:generate_maze_2, n})
   end
 
+
+  def get_maze(server) do
+    GenServer.call(server, {:get_maze})
+  end
+
+  def move(server, object, direction) do
+    GenServer.call(server, {:move, object, direction})
+  end
+
   # Server Implementation
 
   # Callbacks
 
   def init(:ok) do
-    {:ok,%{}}
+    IO.puts("Maze server init. \n")
+    :timer.send_interval(5_000, :tick)
+
+    {:ok, generate_maze_impl(7)}
+  end
+
+  def handle_info(:tick, state) do
+    newstate = generate_maze_impl(7)
+    {:noreply, newstate}
+  end
+
+  defp generate_maze_impl(n) do
+    grid = Grid.square_grid(n)
+      |> binary_tree()
+    maze = %Maze{
+        graph: grid,
+        objects: %{ monsterino: Enum.random(Digraph.vertices(grid)) }
+      }
+    maze
   end
 
   def handle_call({:generate_maze, n}, _from, state) do
-    maze = Graph.square_grid(n)
+    grid = Graph.square_grid(n)
       |> binary_tree()
       |> Graph.as_grid()
-    {:reply, maze, state}
+    maze = %Maze{
+      graph: grid,
+      objects: %{ monsterino: Enum.random(Digraph.vertices(grid)) }
+    }
+    {:reply, maze, maze}
   end
 
   def handle_call({:generate_maze_2, n}, _from, state) do
-    maze = Grid.square_grid(n)
-      |> binary_tree()      
-    {:reply, maze, state}
+    IO.puts("Generate\n")
+    maze = generate_maze_impl(n)
+
+    {:reply, maze, maze}
+  end
+
+  def handle_call({:get_maze}, _from, state) do
+    {:reply, state, state}
+  end
+
+  def move({:move, object, direction}, _from, state) do
+    state = put_in state.objects[object], Enum.random(Digraph.vertices(state.grid))
+    IO.puts(inspect state)
+    {:reply, state, state}
   end
 
   # Other
