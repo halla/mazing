@@ -31,13 +31,26 @@ defmodule Mazing.Maze do
     GenServer.call(server, {:generate_maze_2, n})
   end
 
-
+  @doc"""
+  Get current state.
+  """
   def get_maze(server) do
     GenServer.call(server, {:get_maze})
   end
 
+  @doc"""
+  Move and object TBD
+  """
   def move(server, object, direction) do
     GenServer.call(server, {:move, object, direction})
+  end
+
+  def available_paths(object) do
+    GenServer.call(:maze_server, {:available_paths, object})
+  end
+
+  def enter(object) do
+    GenServer.call(:maze_server, {:enter, object})
   end
 
   # Server Implementation
@@ -46,24 +59,25 @@ defmodule Mazing.Maze do
 
   def init(:ok) do
     IO.puts("Maze server init. \n")
-    :timer.send_interval(5_000, :tick)
+    :timer.send_interval(1_000, :tick)
 
     {:ok, generate_maze_impl(7)}
   end
 
   def handle_info(:tick, state) do
-    newstate = generate_maze_impl(7)
+    #newstate = movegenerate_maze_impl(7)
+    newstate = move_impl(state, :monsterino, Enum.random(Grid.available_paths(state.graph, state.objects.monsterino)))
     {:noreply, newstate}
   end
 
-  defp generate_maze_impl(n) do
-    grid = Grid.square_grid(n)
-      |> binary_tree()
-    maze = %Maze{
-        graph: grid,
-        objects: %{ monsterino: Enum.random(Digraph.vertices(grid)) }
-      }
-    maze
+  def handle_call({:available_paths, object}, _from, state) do
+    paths = Grid.available_paths(state.graph, state.objects[object])
+    {:reply, paths, state }
+  end
+
+  def handle_call({:enter, object}, _from, state) do
+    state = put_in state.objects[object], Grid.random_v(state.graph)
+    {:reply, state, state}
   end
 
   def handle_call({:generate_maze, n}, _from, state) do
@@ -88,13 +102,40 @@ defmodule Mazing.Maze do
     {:reply, state, state}
   end
 
-  def move({:move, object, direction}, _from, state) do
-    state = put_in state.objects[object], Enum.random(Digraph.vertices(state.grid))
+  def handle_call({:move, object, direction}, _from, state) do
+    #state = put_in state.objects[object], Enum.random(Digraph.vertices(state.grid))
     IO.puts(inspect state)
+    state = move_impl(state, object, direction)
+
     {:reply, state, state}
   end
 
   # Other
+  defp move_impl(state, object, direction) do
+    g = state.graph
+    v1 = state.objects[object]
+    v2 = case direction do
+      :up -> if Grid.has_top_path(g, v1) do Grid.top(g, v1) end
+      :down -> if Grid.has_bottom_path(g, v1) do Grid.bottom(g, v1) end
+      :left -> if Grid.has_left_path(g, v1) do Grid.left(g, v1) end
+      :right -> if Grid.has_right_path(g,v1) do Grid.right(g, v1) end
+    end
+    if v2 do
+      state = put_in state.objects[object], v2
+    end
+    state
+  end
+
+  defp generate_maze_impl(n) do
+    grid = Grid.square_grid(n)
+    |> binary_tree()
+    maze = %Maze{
+      graph: grid,
+      objects: %{ monsterino: Enum.random(Digraph.vertices(grid)) }
+    }
+    maze
+  end
+
 
   def binary_tree(%Graph{} = g) do
     edges = g.nodes

@@ -16,6 +16,7 @@ defmodule Mazing.Grid do
   alias Mazing.Digraph
   import Digraph
 
+
   @doc """
   Construct a square grid-shaped graph
   """
@@ -130,6 +131,19 @@ defmodule Mazing.Grid do
     Digraph.has_edge(g, v, bottom(g, v))
   end
 
+  def available_paths(g, v) do
+    all = [:down, :up, :left, :right]
+    paths = [
+      has_bottom_path(g, v),
+      has_top_path(g, v),
+      has_left_path(g, v),
+      has_right_path(g, v)
+    ]
+
+    Enum.zip(all, paths)
+     |> Enum.filter(fn { x, t } -> t end)
+     |> Enum.map(fn { x, t } -> x end)
+  end
   @doc """
   neighbor cells, whethere there is path or not.
   """
@@ -140,5 +154,9 @@ defmodule Mazing.Grid do
 
   def rows(g) do
     Enum.chunk Digraph.vertices(g), width(g)
+  end
+
+  def random_v(g) do
+    Enum.random(Digraph.vertices(g))
   end
 end

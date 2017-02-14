@@ -7,6 +7,9 @@ defmodule Mazing.GridTest do
   import Mazing.Digraph
 
   require Logger
+  def debug(x) do
+    IO.puts(inspect x)
+  end
 
   test "1x1 grid node has no neighbors" do
     g = square_grid(1)
@@ -84,5 +87,19 @@ defmodule Mazing.GridTest do
   test "5x5 grid 11 is top of 6" do
     g = square_grid(5)
     assert top(g, 6) == 11
+  end
+
+  test "available_paths" do
+    g = square_grid(5)
+      |> Digraph.add_edge(1, 2)
+
+    available_paths(g, 1)
+  end
+
+  test "random" do
+    g = square_grid(5)
+      |> Digraph.add_edge(1, 2)
+
+    Grid.random_v(g)
   end
 end
