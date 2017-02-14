@@ -1,6 +1,8 @@
 defmodule Mazing.Maze do
   @moduledoc"""
   GenServer serving mazes on demand.
+
+  A Maze
   """
 
   use GenServer
@@ -11,7 +13,7 @@ defmodule Mazing.Maze do
   alias Mazing.Edge
   alias Mazing.Maze
 
-  defstruct graph: nil, objects: %{}
+  defstruct graph: nil, objects: %{}, trails: %{}
 
   def debug(x) do
     IO.puts (inspect x)
@@ -53,26 +55,34 @@ defmodule Mazing.Maze do
     GenServer.call(:maze_server, {:enter, object})
   end
 
+  def insert_object(agent, object) do
+    GenServer.call(:maze_server, {:insert_object, agent, object})
+  end
+
   # Server Implementation
 
   # Callbacks
 
   def init(:ok) do
     IO.puts("Maze server init. \n")
-    :timer.send_interval(1_000, :tick)
+    :timer.send_interval(500, :tick)
 
     {:ok, generate_maze_impl(7)}
   end
 
   def handle_info(:tick, state) do
-    #newstate = movegenerate_maze_impl(7)
-    newstate = move_impl(state, :monsterino, Enum.random(Grid.available_paths(state.graph, state.objects.monsterino)))
-    {:noreply, newstate}
+    # TBD calculations, physics, animation frame?
+
+    {:noreply, state}
   end
 
   def handle_call({:available_paths, object}, _from, state) do
     paths = Grid.available_paths(state.graph, state.objects[object])
     {:reply, paths, state }
+  end
+
+  def handle_call({:insert_object, agent, object}, _from, state) do
+    state = put_in state, [:objects, object], state.objects[agent]
   end
 
   def handle_call({:enter, object}, _from, state) do
@@ -86,7 +96,8 @@ defmodule Mazing.Maze do
       |> Graph.as_grid()
     maze = %Maze{
       graph: grid,
-      objects: %{ monsterino: Enum.random(Digraph.vertices(grid)) }
+      objects: %{},
+      trails: %{}
     }
     {:reply, maze, maze}
   end
@@ -103,13 +114,21 @@ defmodule Mazing.Maze do
   end
 
   def handle_call({:move, object, direction}, _from, state) do
-    #state = put_in state.objects[object], Enum.random(Digraph.vertices(state.grid))
-    IO.puts(inspect state)
+    v1 = state.objects[object]
+    trail = Map.get(state.trails, object, :queue.new)
+    trail = :queue.in(v1, trail)
+    if :queue.len(trail) > 3 do
+      {_, trail} = :queue.out(trail)
+    end
+    state = put_in state.trails[object], trail
     state = move_impl(state, object, direction)
-
     {:reply, state, state}
   end
 
+  def code_change(old_vsn, state, extra) do
+      IO.puts "New version. Moving out of #{old_vsn} #{inspect extra}"
+      {:ok, state}
+  end
   # Other
   defp move_impl(state, object, direction) do
     g = state.graph
@@ -131,7 +150,8 @@ defmodule Mazing.Maze do
     |> binary_tree()
     maze = %Maze{
       graph: grid,
-      objects: %{ monsterino: Enum.random(Digraph.vertices(grid)) }
+      objects: %{},
+      trails: %{}
     }
     maze
   end
