@@ -43,8 +43,15 @@ defmodule Mazing.Digraph do
   @doc """
   Convinience method to allow tuples as edge definitions
   """
-  def add_edge(g, {v, w}) do    
+  def add_edge(g, {v, w}) do
+
     add_edge(g, v, w)
+  end
+
+  def add_edges(g, edges) do
+    Enum.reduce(edges, g, fn([v, w], acc) ->
+      add_edge(acc, v, w)
+    end)
   end
 
   @doc """
@@ -75,5 +82,11 @@ defmodule Mazing.Digraph do
   def has_edge(g, v1, nil), do: false
   def has_edge(g, v1, v2) do
     MapSet.member?(adj(g, v1), v2)
+  end
+
+
+  def add_path(g, path) do
+    edges = Enum.chunk(path, 2, 1)
+    add_edges(g, edges)
   end
 end

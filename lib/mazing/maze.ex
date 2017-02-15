@@ -22,6 +22,7 @@ defmodule Mazing.Maze do
   end
 
 
+
   # Client API
   def start_link() do
     GenServer.start_link(__MODULE__, :ok, name: :maze_server)
@@ -30,8 +31,8 @@ defmodule Mazing.Maze do
   @doc"""
   Generate a square maze of size n.
   """
-  def generate_maze(server, n) do
-    GenServer.call(server, {:generate_maze_2, n})
+  def generate_maze(server, generator, n) do
+    GenServer.call(server, {:generate_maze_2, generator, n})
   end
 
   @doc"""
@@ -72,7 +73,7 @@ defmodule Mazing.Maze do
     IO.puts("Maze server init. \n")
     :timer.send_interval(500, :tick)
 
-    {:ok, generate_maze_impl(7)}
+    {:ok, generate_maze_impl(:binary_tree, 7)}
   end
 
   def handle_info(:tick, state) do
@@ -107,9 +108,9 @@ defmodule Mazing.Maze do
     {:reply, maze, maze}
   end
 
-  def handle_call({:generate_maze_2, n}, _from, state) do
+  def handle_call({:generate_maze_2, generator, n}, _from, state) do
     IO.puts("Generate\n")
-    maze = generate_maze_impl(n)
+    maze = generate_maze_impl(generator, n)
     maze = put_in maze.objects, state.objects
     {:reply, maze, maze}
   end
@@ -150,9 +151,14 @@ defmodule Mazing.Maze do
     state
   end
 
-  defp generate_maze_impl(n) do
+  defp generate_maze_impl(generator, n) do
+    gen_fn = case generator do
+      :sidewinder -> &Generator.sidewinder/1
+      :binary_tree -> &Generator.binary_tree/1
+    end
+
     grid = Grid.square_grid(n)
-    |> Generator.binary_tree()
+      |> gen_fn.()
     maze = %Maze{
       graph: grid,
       objects: %{},

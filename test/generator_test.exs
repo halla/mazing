@@ -34,4 +34,16 @@ defmodule Mazing.GeneratorTest do
       |> Generator.binary_tree()
 
   end
+
+  test "sidewinder edges works somehow" do
+    g = Grid.square_grid(5)
+    vertices = [1,2,3,4,5]
+    edges = Generator.sidewinder_edges(g, vertices)
+    #IO.puts(inspect edges)
+  end
+
+  test "sidewinder works somehow" do
+    g = Grid.square_grid(5)
+      |> Generator.sidewinder()
+  end
 end

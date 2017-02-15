@@ -44,4 +44,10 @@ defmodule Mazing.DigraphTest do
     assert Digraph.v(g) == 634
   end
 
+  test "add path" do
+    path = [1,2,3,4,5]
+    g = Digraph.new(5)
+      |> Digraph.add_path(path)
+    assert Digraph.has_edge(g, 3, 4) == true
+  end
 end
