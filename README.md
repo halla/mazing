@@ -5,9 +5,14 @@ libraries and tools through mazes.
 
 
 * Graph algorithms
-* mazes
+  * Depth-first search
+* Maze algorithms
+  * Binary tree
+  * Sidewinder
 * OTP
-* simulation
+* Agents
+  * Movement inside maze
+  * Trails
 
 The maze is populated with autonomous agents, implemented as GenServers.
 
