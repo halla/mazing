@@ -1,6 +1,20 @@
 # Mazing
 
-**TODO: Add description**
+This is a project that explores the Elixir programming language and related
+libraries and tools through mazes.
+
+
+* Graph algorithms
+* mazes
+* OTP
+* simulation
+
+The maze is populated with autonomous agents, implemented as GenServers.
+
+There is a mazing_ui project that implements a web ui using Phoenix Framework and
+channels.
+
+This project is inspired by the book _Mazes for programmers_ by Jamis Buck.
 
 ## Installation
 
@@ -21,4 +35,3 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
       [applications: [:mazing]]
     end
     ```
-

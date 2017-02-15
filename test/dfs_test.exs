@@ -7,6 +7,7 @@ defmodule Mazing.DfsTest do
   alias Mazing.Dfs
   alias Mazing.Grid
   alias Mazing.Maze
+  alias Mazing.Generator
 
   require Logger
 
@@ -21,7 +22,7 @@ defmodule Mazing.DfsTest do
 
   test "dfs finds connected nodes in digraph" do
     g = Grid.square_grid(5)
-      |> Maze.binary_tree()
+      |> Generator.binary_tree()
 
     s = 1
     dfs = Dfs.dfs(g, s)

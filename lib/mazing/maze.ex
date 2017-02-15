@@ -12,6 +12,7 @@ defmodule Mazing.Maze do
   alias Mazing.Node
   alias Mazing.Edge
   alias Mazing.Maze
+  alias Mazing.Generator
 
   defstruct graph: nil, objects: %{}, trails: %{}
 
@@ -41,15 +42,19 @@ defmodule Mazing.Maze do
   end
 
   @doc"""
-  Move and object TBD
+  Move an object
   """
   def move(server, object, direction) do
     GenServer.call(server, {:move, object, direction})
   end
 
+  @doc"""
+  Available directions for given objects location.
+  """
   def available_paths(object) do
     GenServer.call(:maze_server, {:available_paths, object})
   end
+
 
   def enter(object) do
     GenServer.call(:maze_server, {:enter, object})
@@ -92,7 +97,7 @@ defmodule Mazing.Maze do
 
   def handle_call({:generate_maze, n}, _from, state) do
     grid = Graph.square_grid(n)
-      |> binary_tree()
+      |> Generator.binary_tree()
       |> Graph.as_grid()
     maze = %Maze{
       graph: grid,
@@ -105,7 +110,7 @@ defmodule Mazing.Maze do
   def handle_call({:generate_maze_2, n}, _from, state) do
     IO.puts("Generate\n")
     maze = generate_maze_impl(n)
-
+    maze = put_in maze.objects, state.objects
     {:reply, maze, maze}
   end
 
@@ -147,52 +152,12 @@ defmodule Mazing.Maze do
 
   defp generate_maze_impl(n) do
     grid = Grid.square_grid(n)
-    |> binary_tree()
+    |> Generator.binary_tree()
     maze = %Maze{
       graph: grid,
       objects: %{},
       trails: %{}
     }
     maze
-  end
-
-
-  def binary_tree(%Graph{} = g) do
-    edges = g.nodes
-    |> Enum.map(fn(n) -> random_neighbor_edge(g, n) end)
-
-    Graph.add_edges(g, edges)
-  end
-
-  def binary_tree(%Digraph{} = g) do
-    edges = Digraph.vertices(g)
-      |> Enum.map(fn v -> random_neighbor_edge(g, v) end)
-    Enum.reduce(edges, g, fn e, acc -> Digraph.add_edge(acc, e) end)
-  end
-
-
-  @doc """
-  Given a Graph and a Node, return a random Edge
-  """
-  def random_neighbor_edge(g, %Node{} = n) do
-    ns = Graph.neighbors(g, n)
-    n2 = if ns == [] do nil else  Enum.random(ns) end
-
-    if n2 do Edge.new(n, n2) else nil end
-  end
-
-  def random_neighbor_edge(%Digraph{} = g, v) do
-    neighbor_cells = Grid.neighbor_cells(g, v)
-
-    v2 = if neighbor_cells == [] do nil else  Enum.random(neighbor_cells) end
-    {v, v2}
-  end
-
-  def generate(size), do: generate(size, :binary_tree)
-
-  def generate(size, :binary_tree ) do
-    Graph.square_grid(size)
-    |> binary_tree()
-    |> Graph.render_ascii()
   end
 end

@@ -1,4 +1,9 @@
 defmodule Mazing.Agent.Randoomed do
+  @moduledoc"""
+  Randoomed moves randomly around.
+  No memory. No goals.
+  """
+
   use GenServer
 
   alias Mazing.Maze
@@ -11,19 +16,15 @@ defmodule Mazing.Agent.Randoomed do
 
   def init(_args) do
     :timer.send_interval(1_000, :tick)
-
     Maze.enter(:randoomed)
-
     {:ok, %{}}
   end
 
 
   def handle_info(:tick, state) do
-    #newstate = movegenerate_maze_impl(7)
     paths = Maze.available_paths(:randoomed)
     Maze.move(:maze_server, :randoomed, Enum.random(paths))
     {:noreply, state}
   end
-
 
 end
