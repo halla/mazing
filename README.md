@@ -4,8 +4,9 @@ This is a project that explores the Elixir programming language and related
 libraries and tools through mazes.
 
 
-* Graph algorithms
+* Graph traversal algorithms
   * Depth-first search
+  * Breadth-first search
 * Maze algorithms
   * Binary tree
   * Sidewinder
