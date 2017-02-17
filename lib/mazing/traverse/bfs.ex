@@ -29,7 +29,11 @@ defmodule Mazing.Traverse.Bfs do
       end)
       # distance gets overridden. how do I test for this?
       distances = Enum.reduce(neighbors, distances, fn w, acc ->
-        Map.put acc, w, l
+        if Enum.member?(visited, w) do
+          acc
+        else
+          Map.put acc, w, l
+        end
       end)
 
       traverse_inner(g, q, distances, visited, l + 1)

@@ -31,7 +31,7 @@ defmodule Mazing.Maze do
   @doc"""
   Generate a square maze of size n.
   """
-  def generate_maze(server, generator, n) do
+  def generate_maze(server, %{generator: generator, size: n}) do
     GenServer.call(server, {:generate_maze_2, generator, n})
   end
 
@@ -73,7 +73,7 @@ defmodule Mazing.Maze do
     IO.puts("Maze server init. \n")
     :timer.send_interval(500, :tick)
 
-    {:ok, generate_maze_impl(:binary_tree, 7)}
+    {:ok, generate_maze_impl(:binary_tree, 9)}
   end
 
   def handle_info(:tick, state) do

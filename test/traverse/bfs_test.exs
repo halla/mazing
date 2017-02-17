@@ -30,4 +30,26 @@ defmodule Mazing.Traverse.BfsTest do
     assert Enum.count(Map.keys(bfs)) == n*n
   end
 
+  test "distance to start is zero" do
+    n = 10
+    s = 1
+    bfs = Grid.square_grid(n)
+      |> Generator.binary_tree()
+      |> Bfs.traverse(s)
+    assert bfs[s] == 0
+  end
+
+  test "distance should always increment by one" do
+    n = 10
+    s = 1
+    bfs = Grid.square_grid(n)
+      |> Generator.binary_tree()
+      |> Bfs.traverse(s)
+    distances = Map.values(bfs)
+      |> Enum.sort
+      |> Enum.uniq
+
+    singlesteps = Enum.into 0..(Enum.count(distances)), []
+    assert distances == singlesteps
+  end
 end
