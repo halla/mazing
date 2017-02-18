@@ -3,20 +3,22 @@ defmodule Mazing.Traverse.Bfs do
 
   def traverse(%Digraph{} = g, s) do
     q = :queue.new
-    q = :queue.in(s, q)
+    q = :queue.in({s, 1}, q)
 
     distances = %{}
       |> Map.put(s, 0)
     visited = []
-    traverse_inner(g, q, distances, visited, 1)
+    prevs = %{}
+      |> Map.put(s, -1)
+    traverse_inner(g, q, distances, prevs, visited)
 
   end
 
-  def traverse_inner(g, q, distances, visited, l) do
+  def traverse_inner(g, q, distances, prevs, visited) do
     if :queue.is_empty(q) do
-      distances
+      { distances, prevs }
     else
-      {{:value, v}, q} = :queue.out(q)
+      {{:value, {v, d}}, q} = :queue.out(q)
       neighbors = Digraph.adj(g, v)
 
       visited = visited ++ [v]
@@ -24,7 +26,7 @@ defmodule Mazing.Traverse.Bfs do
         if Enum.member?(visited, w) do
           acc
         else
-          :queue.in w, acc
+          :queue.in {w, d + 1}, acc
         end
       end)
       # distance gets overridden. how do I test for this?
@@ -32,11 +34,19 @@ defmodule Mazing.Traverse.Bfs do
         if Enum.member?(visited, w) do
           acc
         else
-          Map.put acc, w, l
+          Map.put acc, w, d
+        end
+      end)
+      prevs = Enum.reduce(neighbors, prevs, fn w, acc ->
+        if Enum.member?(visited, w) do
+          acc
+        else
+          Map.put acc, w, v
         end
       end)
 
-      traverse_inner(g, q, distances, visited, l + 1)
+
+      traverse_inner(g, q, distances, prevs, visited)
     end
 
   end
