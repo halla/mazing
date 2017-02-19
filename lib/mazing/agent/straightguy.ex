@@ -2,12 +2,17 @@ defmodule Mazing.Agent.Straightguy do
   @moduledoc"""
   Straightguy moves in straight lines, keeping the heading if possible.
   """
-
   use GenServer
 
   alias Mazing.Maze
 
+  @agentname :straightguy
+
   # Client API
+  def agent_info() do
+    GenServer.call(@agentname, {:agent_info})
+  end
+
   def start_link() do
     GenServer.start_link(__MODULE__, :ok, name: :straightguy) # singleton for now
   end
@@ -30,5 +35,7 @@ defmodule Mazing.Agent.Straightguy do
     {:noreply, heading}
   end
 
-
+  def handle_call({:agent_info}, _from, state) do
+    {:reply, "Heading: #{state}", state}
+  end
 end
