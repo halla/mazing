@@ -56,7 +56,7 @@ defmodule Mazing.Traverse.BfsTest do
   test "there is a prev for each node" do
     n = 10
     s = 1
-    {distances, prevs} = Grid.square_grid(n)
+    {_distances, prevs} = Grid.square_grid(n)
       |> Generator.binary_tree()
       |> Bfs.traverse(s)
     assert Enum.count(Map.keys(prevs)) == n*n

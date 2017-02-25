@@ -59,7 +59,7 @@ defmodule Mazing.Generator do
     end)
 
     # y-paths
-    g = Enum.reduce(runs, g, fn run, acc ->      
+    g = Enum.reduce(runs, g, fn run, acc ->
       {v, _} = Enum.random(run)
       Digraph.add_edge(acc, v, Grid.top(g, v))
     end)
@@ -70,7 +70,7 @@ defmodule Mazing.Generator do
   @doc """
   Given a Graph and a Node, return a random Edge
   """
-  def random_neighbor_edge(g, %Node{} = n) do
+  def random_neighbor_edge(%Graph{} = g, %Node{} = n) do
     ns = Graph.neighbors(g, n)
     n2 = if ns == [] do nil else  Enum.random(ns) end
 

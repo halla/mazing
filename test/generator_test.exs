@@ -2,7 +2,6 @@ defmodule Mazing.GeneratorTest do
   use ExUnit.Case
 
   alias Mazing.Graph
-  alias Mazing.Maze
   alias Mazing.Grid
   alias Mazing.Generator
 
@@ -13,12 +12,15 @@ defmodule Mazing.GeneratorTest do
 
   test "random neighbor edge is neighbor" do
     g = Graph.square_grid(5)
-    Generator.random_neighbor_edge(g, Enum.at(g.nodes, 0))
+    e = Generator.random_neighbor_edge(g, Enum.at(g.nodes, 0))
+    assert Enum.count(e.nodes) == 2
+    
   end
 
   test "binary algorith works somehow" do
     g = Graph.square_grid(5)
-    g2 = Generator.binary_tree(g)
+      |> Generator.binary_tree()
+    assert Enum.count(g.edges) == 25
 #    IO.puts (inspect g2.edges)
   end
 
@@ -32,18 +34,20 @@ defmodule Mazing.GeneratorTest do
   test "binary algorith works somehow in digraph/grid" do
     g = Grid.square_grid(5)
       |> Generator.binary_tree()
-
+    assert Enum.count(g.adj) == 25
   end
 
   test "sidewinder edges works somehow" do
     g = Grid.square_grid(5)
     vertices = [1,2,3,4,5]
     edges = Generator.sidewinder_edges(g, vertices)
-    #IO.puts(inspect edges)
+    assert Enum.count(edges.adj) == 25
   end
 
   test "sidewinder works somehow" do
     g = Grid.square_grid(5)
       |> Generator.sidewinder()
+
+    assert Enum.count(g.adj) == 25
   end
 end

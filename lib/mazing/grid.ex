@@ -18,7 +18,7 @@ defmodule Mazing.Grid do
 
 
   @doc """
-  Construct a square grid-shaped graph
+  Construct a square grid-shaped graph -- no edges
   """
   def square_grid(n) do
     g = Digraph.new(:math.pow(n,2) |> round)

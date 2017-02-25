@@ -13,7 +13,7 @@ defmodule Mazing.GraphTest do
     nodes = for x <- 1..5, y <- 1..5 do
       %Node{x: x, y: y}
     end
-    Logger.debug(inspect nodes)
+    
     g = %Graph{}
 
     assert count_nodes(g) == 0
@@ -65,6 +65,6 @@ defmodule Mazing.GraphTest do
   test "as grid returns list of lists" do
     g = square_grid(2)
     g = as_grid(g)
-    IO.puts (inspect(g))
+    assert Enum.count(g) == 2
   end
 end

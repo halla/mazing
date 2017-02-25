@@ -89,6 +89,7 @@ defmodule Mazing.Maze do
 
   def handle_call({:insert_object, agent, object}, _from, state) do
     state = put_in state, [:objects, object], state.objects[agent]
+    {:reply, state, state}
   end
 
   def handle_call({:enter, object}, _from, state) do
@@ -96,7 +97,7 @@ defmodule Mazing.Maze do
     {:reply, state, state}
   end
 
-  def handle_call({:generate_maze, n}, _from, state) do
+  def handle_call({:generate_maze, n}, _from, _state) do
     grid = Graph.square_grid(n)
       |> Generator.binary_tree()
       |> Graph.as_grid()

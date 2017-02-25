@@ -4,8 +4,7 @@ defmodule Mazing.GridTest do
   alias Mazing.Grid
   import Mazing.Grid
   alias Mazing.Digraph
-  import Mazing.Digraph
-
+  
   require Logger
   def debug(x) do
     IO.puts(inspect x)
@@ -20,6 +19,7 @@ defmodule Mazing.GridTest do
     g = square_grid(2)
     assert right(g, 1) == 2
   end
+
 
   test "v1 has right on 2x2 grid" do
     g = square_grid(2)
@@ -75,12 +75,13 @@ defmodule Mazing.GridTest do
 
   test "2x2 grid last node has two neighbors" do # bidirectional
     g = square_grid(2)
+      |> build_edges()
     assert MapSet.size(Digraph.adj(g, List.last(Digraph.vertices(g)))) == 2
   end
 
   test "2x2 grid first node has two neighbors" do
     g = square_grid(2)
-    Logger.debug(inspect g)
+      |> build_edges()
     assert MapSet.size(Digraph.adj(g, Enum.at(Digraph.vertices(g), 0))) == 2
   end
 
