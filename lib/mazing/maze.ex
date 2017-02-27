@@ -49,6 +49,10 @@ defmodule Mazing.Maze do
     GenServer.call(server, {:move, object, direction})
   end
 
+  def objects() do
+    GenServer.call(:maze_server, :objects)
+  end
+
   @doc"""
   Available directions for given objects location.
   """
@@ -65,6 +69,9 @@ defmodule Mazing.Maze do
     GenServer.call(:maze_server, {:insert_object, agent, object})
   end
 
+  def agent_info(agent) do
+    GenServer.call(agent, {:agent_info})
+  end
   # Server Implementation
 
   # Callbacks
@@ -130,6 +137,10 @@ defmodule Mazing.Maze do
     state = put_in state.trails[object], trail
     state = move_impl(state, object, direction)
     {:reply, state, state}
+  end
+
+  def handle_call(:objects, _from, state) do
+      {:reply, state.objects, state}
   end
 
   def code_change(old_vsn, state, extra) do
