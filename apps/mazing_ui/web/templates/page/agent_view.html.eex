@@ -1,0 +1,4 @@
+<h2>Agent</h2>
+Name: <%= @name %>
+<br>
+Info: <%= @info %>

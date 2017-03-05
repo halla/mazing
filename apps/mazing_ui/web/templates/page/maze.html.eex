@@ -1,0 +1,16 @@
+<table class="base-layer">
+<%= if @maze do %>
+  <%= for row <- rows(@maze.graph) do %>
+    <tr>
+    <%= for c <- row do %>
+      <td class="<%= classes_for_cell(@maze, c) %>" >
+        <%= render "cell.html", maze: @maze, cell: c, bfs: @bfs, dfs: (if @dfs do @dfs else nil end) %>
+      </td>
+    <%= end %>
+    </tr>
+  <%= end%>
+<%= end %>
+</table>
+<div class="object-monitor">
+  <%= render "object_monitor.html", objects: @maze.objects %>
+</div>

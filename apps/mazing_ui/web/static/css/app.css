@@ -1,0 +1,36 @@
+/* This file is for your main application css. */
+
+body { max-height: 100vh; margin: 0; padding: 0
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+nav { flex: 0 0 22em; order: -1; padding: 1em; }
+aside { flex: 0 0 22em; padding: 1em; }
+div.body { display: flex; flex: 1; }
+
+td {  border-spacing: 2px; border-collapse: separate; padding: 1px; width: 60px; height: 60px; border: 6px solid black; vertical-align: center;}
+td.bottom { border-bottom: none}
+td.top { border-top: none }
+td.left { border-left: none }
+td.right { border-right: none}
+td .cell-inner { margin: 2px; height: 100%; vertical-align: center; position:relative; }
+td.monsterino .cell-inner { background-color: red}
+td.randoomed-trail .cell-inner { background-color: lightblue; }
+td.straightguy-trail .cell-inner { background-color: lightgreen }
+td.randoomed .cell-inner { background-color: blue }
+td.avatar .cell-inner { background-color: darkblue }
+
+td.straightguy .cell-inner { background-color: green }
+td.green_dot .cell-inner { background-color: darkgreen }
+
+table#move-controls td { border: none; }
+.cell-inner { cursor: pointer; }
+a.cell-anchor { position: absolute; height: 100%; width: 100%; left: 0; top: 0;  }
+a.cell-anchor:hover { z-index: 10; background-color: rgba(100,123,211, 0.2)}
+.cell-id { position: absolute; left: 0; top: 0; color: #aaa; font-size: 0.8em; }
+.cell-info { color: #555; font-size: 0.9em; padding-top: 0.4em; margin-top: 1em; display: inline-block; }
+.cell-bg { position: absolute; height: 100%; width: 100%}
+
+
+.info-text { color: #555; margin: 2em 0; font-style: italic}

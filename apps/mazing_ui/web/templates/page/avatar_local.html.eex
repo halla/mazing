@@ -1,0 +1,2 @@
+<div id="agent-area"> </div>
+<%= render "move_controls.html" %>

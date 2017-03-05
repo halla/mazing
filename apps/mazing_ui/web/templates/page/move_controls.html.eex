@@ -1,0 +1,27 @@
+
+<table id="move-controls">
+<tr>
+  <td></td>
+  <td>
+    <button id="move-up">Up</button>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td>
+    <button id="move-left">Left</button>
+  </td>
+  <td></td>
+  <td>
+    <button id="move-right">Right</button>
+  </td>
+</tr>
+<tr>
+  <td></td>
+  <td>
+    <button id="move-down">Down</button>
+
+  </td>
+  <td></td>
+</tr>
+</table>

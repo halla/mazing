@@ -1,0 +1,37 @@
+<div class="overview">
+  <div class="body">
+    <main id="maze">
+      <div id="maze-area">
+        <%= render "maze.html", maze: @maze, dfs: (if @dfs do @dfs else nil end) %>
+      </div>
+    </main>
+    <nav>
+      Maze algorithm:
+      <select id="generator-selector">
+        <%= for g <- @generators  do %>
+        <option value="<%= g.code %>"> <%= g.title %> </option>
+        <%= end %>
+      </select>
+      <button id="maze-me">Maze me</button>
+      <br>
+      Object:
+      <select id="object-selector">
+        <%= for {code, _pos} <- @objects do %>
+          <option value="<%= code %>"> <%= code %> </options>
+        <%= end %>
+      </select>
+      <div class="info-text">
+        The controls in this column are set once on page load time.
+        They can change the server state (eg. maze structure) or
+        channel state (eg. which agent info is updated).
+      </div>
+    </nav>
+
+    <aside class="details">
+      <div id="agent-area" class="agent-view">
+        <%= render "agent_view.html", name: "Unknown", info: "no info." %>
+      </div>
+      <%= render "move_controls.html" %>
+    </aside>
+  </div>
+</div>
