@@ -14,30 +14,17 @@ libraries and tools through mazes.
 * Agents
   * Movement inside maze
   * Trails
+* Umbrella project
+  * Web ui separated from mazing app itself
+  * Probably overkill... 
 
 The maze is populated with autonomous agents, implemented as GenServers.
-
-There is a mazing_ui project that implements a web ui using Phoenix Framework and
-channels.
 
 This project is inspired by the book _Mazes for programmers_ by Jamis Buck.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-  1. Add `mazing` to your list of dependencies in `mix.exs`:
-
-    ```elixir
-    def deps do
-      [{:mazing, "~> 0.1.0"}]
-    end
-    ```
-
-  2. Ensure `mazing` is started before your application:
-
-    ```elixir
-    def application do
-      [applications: [:mazing]]
-    end
-    ```
+* Haven't tried yet...
+* git clone
+* the normal stuff... (mix deps.get, mix phx.server...)
+* see the running maze in your browser
