@@ -11,12 +11,13 @@ libraries and tools through mazes.
   * Binary tree
   * Sidewinder
 * OTP
+  * Maze state is a persistent world populated by autonomous agents
 * Agents
   * Movement inside maze
   * Trails
 * Umbrella project
   * Web ui separated from mazing app itself
-  * Probably overkill... 
+  * Probably overkill...
 
 The maze is populated with autonomous agents, implemented as GenServers.
 

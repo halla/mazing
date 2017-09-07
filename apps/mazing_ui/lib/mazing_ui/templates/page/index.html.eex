@@ -6,6 +6,12 @@
       </div>
     </main>
     <nav>
+      <p class="info-text">
+        The maze is a persistent world, populated by autonomous agents. It's stored on the server and updated on the browser.
+        If you open another browser tab you can see it reflecting the same maze. </p>
+        <p class="info-text">There's an agent called 'Avatar' that you
+        can control with the arrows.
+      </p>
       Maze algorithm:
       <select id="generator-selector">
         <%= for g <- @generators  do %>
@@ -14,12 +20,13 @@
       </select>
       <button id="maze-me">Maze me</button>
       <br>
-      Object:
+      Show Object info for: (randoomed will crash and reload)
       <select id="object-selector">
         <%= for {code, _pos} <- @objects do %>
           <option value="<%= code %>"> <%= code %> </options>
         <%= end %>
       </select>
+
       <div class="info-text">
         The controls in this column are set once on page load time.
         They can change the server state (eg. maze structure) or
@@ -29,7 +36,7 @@
 
     <aside class="details">
       <div id="agent-area" class="agent-view">
-        <%= render "agent_view.html", name: "Unknown", info: "no info." %>
+        <%= render "agent_view.html", name: "Unknown", info: "no info.", description: "no description" %>
       </div>
       <%= render "move_controls.html" %>
     </aside>

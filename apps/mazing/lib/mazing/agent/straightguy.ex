@@ -38,4 +38,8 @@ defmodule Mazing.Agent.Straightguy do
   def handle_call({:agent_info}, _from, state) do
     {:reply, "Heading: #{state}", state}
   end
+
+  def handle_call({:agent_description}, _from, _state) do
+    {:reply, "I move in straight lines.", _state}
+  end
 end

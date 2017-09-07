@@ -72,6 +72,10 @@ defmodule Mazing.Maze do
   def agent_info(agent) do
     GenServer.call(agent, {:agent_info})
   end
+
+  def agent_description(agent) do
+    GenServer.call(agent, {:agent_description})
+  end
   # Server Implementation
 
   # Callbacks

@@ -4,4 +4,5 @@ defmodule Mazing.Agent do
   """
 
   @callback agent_info :: String.t
+  @callback agent_description :: String.t
 end

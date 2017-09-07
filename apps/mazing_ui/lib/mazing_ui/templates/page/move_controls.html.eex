@@ -1,4 +1,6 @@
 
+<h3>Control Avatar</h3>
+<p class="info-text">You should see the avatar block moving inside the maze. Keyboard might work as well.</p>
 <table id="move-controls">
 <tr>
   <td></td>
