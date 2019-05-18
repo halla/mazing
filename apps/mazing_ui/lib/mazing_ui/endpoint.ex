@@ -1,7 +1,9 @@
 defmodule MazingUi.Endpoint do
   use Phoenix.Endpoint, otp_app: :mazing_ui
 
-  socket "/socket", MazingUi.UserSocket
+  socket "/socket", MazingUi.UserSocket,
+    websocket: true # or list of options
+    #longpoll: [check_origin: ...]
 
   # Serve at "/" the static files from "priv/static" directory.
   #
@@ -25,7 +27,7 @@ defmodule MazingUi.Endpoint do
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Jason
 
   plug Plug.MethodOverride
   plug Plug.Head
