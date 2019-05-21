@@ -15,7 +15,8 @@ defmodule MazingUi.MazeView do
 
     def mount(session, socket) do
         :timer.send_interval(100, :refresh)
-        {:ok, assign(socket, maze: session[:maze], dfs: session[:dfs], bfs: nil, generators: session[:generators], objects: session[:objects], deploy_step: "Ready!")}
+        {:ok, assign(socket, maze: session[:maze], dfs: session[:dfs], 
+            bfs: nil, generators: session[:generators], objects: session[:objects], deploy_step: "Ready!", generator: :binary_tree )}
     end
 
  @doc """
@@ -35,7 +36,7 @@ defmodule MazingUi.MazeView do
   @doc """
   Generate a new maze.
   """
-  def handle_event("maze_me", _, socket) do
+  def handle_event("maze_me", generator, socket) do    
     options = %{
       generator: :binary_tree, #String.to_atom(generator),
       size: 9
@@ -52,5 +53,17 @@ defmodule MazingUi.MazeView do
     Mazing.Agent.Avatar.move(String.to_atom(direction))
     IO.puts("move" <> direction)
     {:noreply, socket}
+  end
+
+
+  @doc """
+  Set start cell. Bfs is calculated from here. Store start cell in socket.
+  """
+  def handle_event("set-start-cell", cell , socket) do    
+    {:noreply, assign(socket, cell: String.to_integer(cell)) }
+  end
+
+  def handle_event("generator-change", %{"generator" => generator}, socket) do
+    {:noreply, assign(socket, generator: String.to_atom(generator)) }
   end
 end

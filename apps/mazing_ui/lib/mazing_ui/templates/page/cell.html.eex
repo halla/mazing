@@ -1,4 +1,4 @@
-<div class="cell-inner" data-cell="<%= @cell %>" >
+<div class="cell-inner" phx-click="set-start-cell" phx-value="<%= @cell %>" data-cell="<%= @cell %>" >
   <div class="cell-bg" style="<%= cell_color(@bfs, @cell) %>" </div>
   <div class="cell-id"><%= @cell %></div>
   <span class="cell-info">

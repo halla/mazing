@@ -13,12 +13,14 @@
         can control with the arrows.
       </p>
       Maze algorithm:
-      <select id="generator-selector">
-        <%= for g <- @generators  do %>
-        <option value="<%= g.code %>"> <%= g.title %> </option>
-        <%= end %>
-      </select>
-      <button id="maze-me" phx-click="maze_me">Maze me</button>
+      <form phx-change="generator-change">
+        <select name="generator" id="generator-selector" >
+          <%= for g <- @generators  do %>
+          <option name="sdf" value="<%= g.code %>"  <%= if @generator == g.code, do: "selected" %> > <%= g.title %> </option>
+          <%= end %>
+        </select>
+      </form>
+      <button id="maze-me" phx-click="maze_me" phx-value="<%= @generator %>">Maze me</button>
       <br>
       Show Object info for: (randoomed will crash and reload)
       <select id="object-selector">
