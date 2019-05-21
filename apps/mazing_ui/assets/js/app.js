@@ -19,15 +19,9 @@ import css from '../css/app.css';
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import socket from "./socket"
-import Maze from "./maze"
-import Agent from "./agent"
 
 
-if (window.location.pathname == "/") {
-  const maze = document.getElementById("maze-area")
-  Maze.init(socket, maze)
-}
+import LiveSocket from "phoenix_live_view"
 
-const agent = document.getElementById("agent-area")
-Agent.init(socket, agent)
+let liveSocket = new LiveSocket("/live")
+liveSocket.connect()

@@ -4,6 +4,8 @@ defmodule MazingUi.Endpoint do
   socket "/socket", MazingUi.UserSocket,
     websocket: true # or list of options
     #longpoll: [check_origin: ...]
+  
+    socket "/live", Phoenix.LiveView.Socket
 
   # Serve at "/" the static files from "priv/static" directory.
   #

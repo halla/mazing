@@ -38,3 +38,10 @@ config :logger, :console, format: "[$level] $message\n"
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
+
+config :mazing_ui, MazingUi.Endpoint,
+  live_reload: [
+    patterns: [      
+      ~r{lib/mazing_ui/live/.*(ex)$}
+    ]
+  ]

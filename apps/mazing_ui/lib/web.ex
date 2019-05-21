@@ -28,6 +28,7 @@ defmodule MazingUi.Web do
 
       import MazingUi.Router.Helpers
       import MazingUi.Gettext
+      import Phoenix.LiveView.Controller, only: [live_render: 3]
     end
   end
 
@@ -44,12 +45,14 @@ defmodule MazingUi.Web do
       import MazingUi.Router.Helpers
       import MazingUi.ErrorHelpers
       import MazingUi.Gettext
+      import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
     end
   end
 
   def router do
     quote do
       use Phoenix.Router
+      import Phoenix.LiveView.Router
     end
   end
 

@@ -5,23 +5,23 @@
 <tr>
   <td></td>
   <td>
-    <button id="move-up">Up</button>
+    <button id="move-up" phx-click="move" phx-value="up">Up</button>
   </td>
   <td></td>
 </tr>
 <tr>
   <td>
-    <button id="move-left">Left</button>
+    <button id="move-left" phx-click="move" phx-value="left">Left</button>
   </td>
   <td></td>
   <td>
-    <button id="move-right">Right</button>
+    <button id="move-right" phx-click="move" phx-value="right">Right</button>
   </td>
 </tr>
 <tr>
   <td></td>
   <td>
-    <button id="move-down">Down</button>
+    <button id="move-down" phx-click="move" phx-value="down">Down</button>
 
   </td>
   <td></td>

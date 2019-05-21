@@ -1,5 +1,6 @@
 defmodule MazingUi.PageController do
   use MazingUi.Web, :controller
+  alias Phoenix.LiveView
 
   def index(conn, _params) do
     maze = %{graph: [], trails: %{}, objects: %{}}
@@ -8,7 +9,7 @@ defmodule MazingUi.PageController do
     objects = Mazing.Maze.objects()
 
     dfs = nil #Dfs.dfs(maze, Enum.at(maze.nodes, 0))
-    render conn, "index.html", maze: maze, dfs: dfs, bfs: nil, objects: objects, generators: generators
+    LiveView.Controller.live_render(conn, MazingUi.MazeView, session: %{maze: maze, dfs: dfs, bfs: nil, objects: objects, generators: generators})
   end
 
   def avatar_local(conn, _params) do

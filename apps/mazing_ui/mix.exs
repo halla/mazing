@@ -43,6 +43,7 @@ defmodule MazingUi.Mixfile do
     {:plug, "~> 1.7"},
     # {:mazing, path: "../mazing"},
      {:ex_doc, "~> 0.14", only: :dev},
+     {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"}
     ]
   end
 end
