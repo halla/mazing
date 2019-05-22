@@ -12,8 +12,10 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
+import phoenix_css from '../css/phoenix.css';
 import css from '../css/app.css';
-
+import Agent from "./agent"
+import socket from "./socket"
 // Import local files
 //
 // Local files can be imported directly using relative
@@ -25,3 +27,6 @@ import LiveSocket from "phoenix_live_view"
 
 let liveSocket = new LiveSocket("/live")
 liveSocket.connect()
+
+const agent = document.getElementById("agent-area")
+Agent.init(socket, agent)

@@ -7,28 +7,6 @@ let Agent = {
       .receive("ok", resp => { console.log("Joined successfully", resp) })
       .receive("error", resp => { console.log("Unable to join", resp) })
 
-    channel.on("agent_info", (resp) => {
-      element.innerHTML = resp.html;
-    });
-
-    let agent_selector = document.getElementById("object-selector");
-    agent_selector.addEventListener("change", function(e) {
-      channel.push("set_active_agent", { agent: agent_selector.value });
-    });
-
-
-    document.getElementById('move-up').addEventListener('click', (e) => {
-      channel.push("move", { direction: "up" });
-    });
-    document.getElementById('move-down').addEventListener('click', (e) => {
-      channel.push("move", { direction: "down" });
-    });
-    document.getElementById('move-left').addEventListener('click', (e) => {
-      channel.push("move", { direction: "left" });
-    });
-    document.getElementById('move-right').addEventListener('click', (e) => {
-      channel.push("move", { direction: "right" });
-    });
     document.onkeydown = function(e) {
       switch(e.which) {
         case 37: // left

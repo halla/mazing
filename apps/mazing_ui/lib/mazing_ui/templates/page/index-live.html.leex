@@ -23,11 +23,13 @@
       <button id="maze-me" phx-click="maze_me" phx-value="<%= @generator %>">Maze me</button>
       <br>
       Show Object info for: (randoomed will crash and reload)
-      <select id="object-selector">
-        <%= for {code, _pos} <- @objects do %>
-          <option value="<%= code %>"> <%= code %> </options>
-        <%= end %>
-      </select>
+      <form phx-change="active-agent-change">
+        <select name="active-agent" id="object-selector">
+          <%= for {code, _pos} <- @objects do %>
+            <option value="<%= code %>"  <%= if @active_agent == code, do: "selected" %> > <%= code %> </options>
+          <%= end %>
+        </select>
+      </form>
 
       <div class="info-text">
         The controls in this column are set once on page load time.
@@ -38,7 +40,7 @@
 
     <aside class="details">
       <div id="agent-area" class="agent-view">
-        <%= render "agent_view.html", name: "Unknown", info: "no info.", description: "no description" %>
+        <%= render "agent_view.html", name: @agent_name, info: @agent_info, description: @agent_description %>
       </div>
       <%= render "move_controls.html" %>
     </aside>

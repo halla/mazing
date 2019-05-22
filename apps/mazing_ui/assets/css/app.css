@@ -1,12 +1,15 @@
 /* This file is for your main application css. */
 
+html { font-size: 18px; }
 body { max-height: 100vh; margin: 0; padding: 0;
     display: flex;
     min-height: 100vh;
-    flex-direction: column;
+    flex-direction: column;    
 }
 
-nav { flex: 0 0 22em; order: -1; padding: 1em; }
+header { padding: 1ex 1em; overflow: hidden }
+header h1 { font-size: 1.2rem; margin: 0; }
+nav { flex: 0 0 22em; order: -1; padding: 0; margin: 0  }
 aside { flex: 0 0 22em; padding: 1em; }
 div.body { display: flex; flex: 1; }
 

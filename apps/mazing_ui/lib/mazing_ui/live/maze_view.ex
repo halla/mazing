@@ -15,8 +15,15 @@ defmodule MazingUi.MazeView do
 
     def mount(session, socket) do
         :timer.send_interval(100, :refresh)
+        :timer.send_interval(1000, :refresh_agent)
         {:ok, assign(socket, maze: session[:maze], dfs: session[:dfs], 
-            bfs: nil, generators: session[:generators], objects: session[:objects], deploy_step: "Ready!", generator: :binary_tree )}
+            bfs: nil, generators: session[:generators], objects: session[:objects], deploy_step: "Ready!", 
+            generator: :binary_tree,
+            active_agent: :avatar,
+            agent_info: "No info",
+            agent_description: "No description",
+            agent_name: "No name"
+             )}
     end
 
  @doc """
@@ -31,6 +38,13 @@ defmodule MazingUi.MazeView do
     #broadcast! socket, "new_maze", %{html: html }
 
     {:noreply, assign(socket, maze: maze, dfs: dfs, bfs: bfs, deploy_step: Enum.random(1..20))}
+  end
+
+  def handle_info(:refresh_agent, socket) do
+    agent = Map.get socket.assigns, :active_agent, :avatar 
+    info = Mazing.Maze.agent_info(agent)
+    description = Mazing.Maze.agent_description(agent)
+    {:noreply, assign(socket, agent_info: info, agent_description: description, agent_name: agent) }
   end
 
   @doc """
@@ -65,5 +79,12 @@ defmodule MazingUi.MazeView do
 
   def handle_event("generator-change", %{"generator" => generator}, socket) do
     {:noreply, assign(socket, generator: String.to_atom(generator)) }
+  end
+
+  def handle_event("active-agent-change", %{"active-agent" => agent_string}, socket) do    
+    agent = String.to_atom(agent_string)
+    info = Mazing.Maze.agent_info(agent)
+    description = Mazing.Maze.agent_description(agent)
+    {:noreply, assign(socket, active_agent: agent, agent_info: info, agent_description: description, agent_name: agent) }
   end
 end
