@@ -29,6 +29,7 @@ This project is inspired by the book _Mazes for programmers_ by Jamis Buck.
 * 
 * git clone
 * assuming you have elixir and yarn installed...
-* the normal elixir stuff... (mix deps.get, mix phx.server...)
+* mix deps.get  (and the normal elixir stuff... )
 * mazing/apps/mazing_ui/assets$ yarn install 
-* see the running maze in your browser
+* mix phx.server
+* see the running maze in your browser(s)

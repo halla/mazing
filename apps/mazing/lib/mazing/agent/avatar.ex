@@ -15,8 +15,6 @@ defmodule Mazing.Agent.Avatar do
     GenServer.call(@name, {:agent_info})
   end
 
-  
-
   def move(direction) do
     Maze.move(:maze_server, @name, direction)
   end
@@ -32,10 +30,14 @@ defmodule Mazing.Agent.Avatar do
 
   def handle_call({:agent_info}, _from, state) do
     paths = Maze.available_paths(@name)
-    {:reply, "Heading: #{inspect paths}", state}
+    {:reply, "You can go: #{inspect paths}", state}
   end
 
   def handle_call({:agent_description}, _from, _state) do
     {:reply, "You can control me.", _state}
+  end
+
+  def handle_cast({:crash}, _from, _state) do
+    {:error} = 1
   end
 end

@@ -4,3 +4,5 @@ Name: <%= @name %>
 Info: <%= @info %>
 <br>
 Description: <%= @description %>
+
+ <button id="crash-me" phx-click="crash_me" phx-value="<%= @agent %>">Crash me</button>

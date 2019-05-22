@@ -6,41 +6,48 @@
       </div>
     </main>
     <nav>
-      <p class="info-text">
-        The maze is a persistent world, populated by autonomous agents. It's stored on the server and updated on the browser.
-        If you open another browser tab you can see it reflecting the same maze. </p>
-        <p class="info-text">There's an agent called 'Avatar' that you
-        can control with the arrows.
+    <p class="info-text">
+        This is a demo experimenting with features of Elixir, Phoenix Framework and Erlang OTP, notably <a href="https://github.com/phoenixframework/phoenix_live_view">Live View</a>,
+        channels, GenServers.
       </p>
-      Maze algorithm:
-      <form phx-change="generator-change">
+      <p class="info-text">
+        The maze is a persistent world, populated by autonomous agents. It's stored on the server and updated on the browser. 
+        </p>
+      
+      <p>You can:
+      <ul>
+       <li>open another browser tab and see it reflecting the same maze. </li>
+      <li>There's an agent called 'Avatar' that you
+        can control with the arrows.</li>
+      <li>generate a new maze <button id="maze-me" phx-click="maze_me" phx-value="<%= @generator %>">Maze me</button></li>
+      <li>try another maze generation algorithm
+        <form phx-change="generator-change">
         <select name="generator" id="generator-selector" >
           <%= for g <- @generators  do %>
           <option name="sdf" value="<%= g.code %>"  <%= if @generator == g.code, do: "selected" %> > <%= g.title %> </option>
           <%= end %>
         </select>
-      </form>
-      <button id="maze-me" phx-click="maze_me" phx-value="<%= @generator %>">Maze me</button>
-      <br>
-      Show Object info for: (randoomed will crash and reload)
+        </form>
+      </li>
+      <li>
+      
+      Show info for given object/agent: 
       <form phx-change="active-agent-change">
         <select name="active-agent" id="object-selector">
           <%= for {code, _pos} <- @objects do %>
             <option value="<%= code %>"  <%= if @active_agent == code, do: "selected" %> > <%= code %> </options>
           <%= end %>
         </select>
-      </form>
-
-      <div class="info-text">
-        The controls in this column are set once on page load time.
-        They can change the server state (eg. maze structure) or
-        channel state (eg. which agent info is updated).
-      </div>
+      </form>      
+      </li>
+      <li>Crash the object, and it crash the agent process and respawn a new one</li>
+      <li>Click on a maze cell and calculate shortest path from that cell to every other one </li>
+      <li>Amaze in wonder / roll your eyes at the source code at <a href="https://github.com/halla/mazing">GitHub</a>
     </nav>
 
     <aside class="details">
       <div id="agent-area" class="agent-view">
-        <%= render "agent_view.html", name: @agent_name, info: @agent_info, description: @agent_description %>
+        <%= render "agent_view.html", agent: @active_agent, name: @agent_name, info: @agent_info, description: @agent_description %>
       </div>
       <%= render "move_controls.html" %>
     </aside>

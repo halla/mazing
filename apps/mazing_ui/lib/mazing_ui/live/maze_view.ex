@@ -81,6 +81,11 @@ defmodule MazingUi.MazeView do
     {:noreply, assign(socket, generator: String.to_atom(generator)) }
   end
 
+  def handle_event("crash_me", agent_string, socket) do
+    GenServer.cast( String.to_atom(agent_string), {:crash})
+    {:noreply, socket}
+  end
+
   def handle_event("active-agent-change", %{"active-agent" => agent_string}, socket) do    
     agent = String.to_atom(agent_string)
     info = Mazing.Maze.agent_info(agent)

@@ -9,6 +9,7 @@ body { max-height: 100vh; margin: 0; padding: 0;
 
 header { padding: 1ex 1em; overflow: hidden }
 header h1 { font-size: 1.2rem; margin: 0; }
+header .nav { margin: 0}
 nav { flex: 0 0 22em; order: -1; padding: 0; margin: 0  }
 aside { flex: 0 0 22em; padding: 1em; }
 div.body { display: flex; flex: 1; }
@@ -24,6 +25,7 @@ td.randoomed-trail .cell-inner { background-color: lightblue; }
 td.straightguy-trail .cell-inner { background-color: lightgreen }
 td.randoomed .cell-inner { background-color: blue }
 td.avatar .cell-inner { background-color: darkblue }
+td.active-agent .cell-inner { border: 2px solid green }
 
 td.straightguy .cell-inner { background-color: green }
 td.green_dot .cell-inner { background-color: darkgreen }
