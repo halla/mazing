@@ -27,10 +27,13 @@ defmodule Mazing.Agent.Straightguy do
 
   def handle_info(:tick, heading) do
     #newstate = movegenerate_maze_impl(7)
-    paths = Maze.available_paths(:straightguy)
-    if not Enum.member?(paths, heading) do
+    paths = Maze.available_paths(:straightguy)    
+    heading = if not Enum.member?(paths, heading) do      
       heading = Enum.random(paths)
+    else 
+      heading
     end
+    
     Maze.move(:maze_server, :straightguy, heading)
     {:noreply, heading}
   end

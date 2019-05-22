@@ -135,10 +135,14 @@ defmodule Mazing.Maze do
     v1 = state.objects[object]
     trail = Map.get(state.trails, object, :queue.new)
     trail = :queue.in(v1, trail)
-    if :queue.len(trail) > 3 do
-      {_, trail} = :queue.out(trail)
-    end
-    state = put_in state.trails[object], trail
+    trail_new = 
+      if :queue.len(trail) > 3 do
+        {_, trail2} = :queue.out(trail)
+        trail2
+      else
+        trail
+      end
+    state = put_in state.trails[object], trail_new
     state = move_impl(state, object, direction)
     {:reply, state, state}
   end
@@ -162,9 +166,10 @@ defmodule Mazing.Maze do
       :right -> if Grid.has_right_path(g,v1) do Grid.right(g, v1) end
     end
     if v2 do
-      state = put_in state.objects[object], v2
-    end
-    state
+      put_in state.objects[object], v2
+    else
+      state
+    end    
   end
 
   defp generate_maze_impl(generator, n) do
