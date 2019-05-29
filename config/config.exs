@@ -8,6 +8,6 @@ config :logger,
 
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
-  metadata: ~w(correlation_id queue request_id user_id)a 
+  metadata: ~w(correlation_id queue request_id user_id)a
 
 config :phoenix, :json_library, Jason

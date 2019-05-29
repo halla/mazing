@@ -12,7 +12,7 @@ defmodule Mazing.Agent.Avatar do
 
   # Client API
   def agent_info() do
-    GenServer.call(@name, {:agent_info})
+    GenServer.call(@name, {:agent_info}, 100)
   end
 
   def move(direction) do
@@ -20,7 +20,8 @@ defmodule Mazing.Agent.Avatar do
   end
 
   def start_link() do
-    GenServer.start_link(__MODULE__, :ok, name: @name) # singleton for now
+    # singleton for now
+    GenServer.start_link(__MODULE__, :ok, name: @name)
   end
 
   def init(_args) do
@@ -30,14 +31,14 @@ defmodule Mazing.Agent.Avatar do
 
   def handle_call({:agent_info}, _from, state) do
     paths = Maze.available_paths(@name)
-    {:reply, "You can go: #{inspect paths}", state}
+    {:reply, "You can go: #{inspect(paths)}", state}
   end
 
   def handle_call({:agent_description}, _from, _state) do
     {:reply, "You can control me.", _state}
   end
 
-  def handle_cast({:crash}, _from, _state) do
+  def handle_cast({:crash}, _state) do
     {:error} = 1
   end
 end

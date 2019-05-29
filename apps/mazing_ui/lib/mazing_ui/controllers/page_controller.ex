@@ -8,11 +8,14 @@ defmodule MazingUi.PageController do
     generators = Mazing.Generator.list_generators()
     objects = Mazing.Maze.objects()
 
-    dfs = nil #Dfs.dfs(maze, Enum.at(maze.nodes, 0))
-    LiveView.Controller.live_render(conn, MazingUi.MazeView, session: %{maze: maze, dfs: dfs, bfs: nil, objects: objects, generators: generators})
+    dfs = nil
+
+    LiveView.Controller.live_render(conn, MazingUi.MazeView,
+      session: %{maze: maze, dfs: dfs, bfs: nil, objects: objects, generators: generators}
+    )
   end
 
   def avatar_local(conn, _params) do
-    render conn, "avatar_local.html"
+    render(conn, "avatar_local.html")
   end
 end

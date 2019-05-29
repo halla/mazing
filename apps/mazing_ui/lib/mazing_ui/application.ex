@@ -12,10 +12,10 @@ defmodule MazingUi.Application do
       supervisor(MazingUi.Endpoint, []),
       # Start your own worker by calling: MazingUi.Worker.start_link(arg1, arg2, arg3)
       # worker(MazingUi.Worker, [arg1, arg2, arg3]),
-      #worker(Mazing.Maze, [])
+      # worker(Mazing.Maze, [])
       worker(Mazing.Agent.Randoomed, []),
       worker(Mazing.Agent.Straightguy, []),
-      worker(Mazing.Agent.Avatar, []),
+      worker(Mazing.Agent.Avatar, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

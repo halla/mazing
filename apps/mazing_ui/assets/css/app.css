@@ -10,9 +10,15 @@ body { max-height: 100vh; margin: 0; padding: 0;
 header { padding: 1ex 1em; overflow: hidden }
 header h1 { font-size: 1.2rem; margin: 0; }
 header .nav { margin: 0}
-nav { flex: 0 0 22em; order: -1; padding: 0; margin: 0  }
-aside { flex: 0 0 22em; padding: 1em; }
-div.body { display: flex; flex: 1; }
+nav {}
+
+
+@media (min-width: 1023px) {
+    aside { flex: 0 0 22em; padding: 1em; }
+    div.body { display: flex; flex: 1; }    
+    nav { flex: 0 0 22em; order: -1;  }
+}
+
 
 td {  border-spacing: 2px; border-collapse: separate; padding: 1px; width: 60px; height: 60px; border: 6px solid black; vertical-align: center;}
 td.bottom { border-bottom: none}
@@ -40,3 +46,5 @@ a.cell-anchor:hover { z-index: 10; background-color: rgba(100,123,211, 0.2)}
 
 
 .info-text { color: #555; margin: 2em 0; font-style: italic}
+
+

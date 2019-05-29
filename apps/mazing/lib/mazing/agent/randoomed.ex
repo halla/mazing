@@ -1,5 +1,5 @@
 defmodule Mazing.Agent.Randoomed do
-  @moduledoc"""
+  @moduledoc """
   Randoomed moves randomly around.
   No memory. No goals.
   """
@@ -10,16 +10,15 @@ defmodule Mazing.Agent.Randoomed do
 
   # Client API
   def start_link() do
-    GenServer.start_link(__MODULE__, :ok, name: :randoomed) # singleton for now
+    # singleton for now
+    GenServer.start_link(__MODULE__, :ok, name: :randoomed)
   end
-
 
   def init(_args) do
     :timer.send_interval(1_000, :tick)
     Maze.enter(:randoomed)
     {:ok, %{}}
   end
-
 
   def handle_info(:tick, state) do
     paths = Maze.available_paths(:randoomed)
@@ -31,13 +30,11 @@ defmodule Mazing.Agent.Randoomed do
     {:reply, "I move in random direction.", _state}
   end
 
-
-  def handle_call({:agent_info}, _from, state) do    
+  def handle_call({:agent_info}, _from, state) do
     {:reply, "No info...", state}
   end
 
   def handle_cast({:crash}, _from, _state) do
     {:error} = 1
   end
-
 end

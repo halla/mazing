@@ -1,5 +1,5 @@
 defmodule Mazing.Agent.Straightguy do
-  @moduledoc"""
+  @moduledoc """
   Straightguy moves in straight lines, keeping the heading if possible.
   """
   use GenServer
@@ -14,9 +14,9 @@ defmodule Mazing.Agent.Straightguy do
   end
 
   def start_link() do
-    GenServer.start_link(__MODULE__, :ok, name: :straightguy) # singleton for now
+    # singleton for now
+    GenServer.start_link(__MODULE__, :ok, name: :straightguy)
   end
-
 
   def init(_args) do
     :timer.send_interval(900, :tick)
@@ -24,16 +24,17 @@ defmodule Mazing.Agent.Straightguy do
     {:ok, %{}}
   end
 
-
   def handle_info(:tick, heading) do
-    #newstate = movegenerate_maze_impl(7)
-    paths = Maze.available_paths(:straightguy)    
-    heading = if not Enum.member?(paths, heading) do      
-      heading = Enum.random(paths)
-    else 
-      heading
-    end
-    
+    # newstate = movegenerate_maze_impl(7)
+    paths = Maze.available_paths(:straightguy)
+
+    heading =
+      if not Enum.member?(paths, heading) do
+        heading = Enum.random(paths)
+      else
+        heading
+      end
+
     Maze.move(:maze_server, :straightguy, heading)
     {:noreply, heading}
   end
