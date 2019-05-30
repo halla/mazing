@@ -58,10 +58,9 @@ defmodule MazingUi.MazeView do
   @doc """
   Generate a new maze.
   """
-  def handle_event("maze_me", generator, socket) do
+  def handle_event("maze_me", _generator, socket) do
     options = %{
-      # String.to_atom(generator),
-      generator: :binary_tree,
+      generator: Map.get(socket.assigns, :generator),
       size: 9
     }
 

@@ -40,7 +40,7 @@ defmodule Mazing.Generator do
   def sidewinder(%Digraph{} = g) do
     rows =
       Digraph.vertices(g)
-      |> Enum.chunk(Grid.width(g))
+      |> Enum.chunk_every(Grid.width(g))
 
     g =
       Enum.reduce(rows, g, fn row, acc ->
@@ -54,7 +54,7 @@ defmodule Mazing.Generator do
   def sidewinder_edges(g, row) do
     runs =
       Enum.map(row, fn v -> {v, Enum.random([0, 1])} end)
-      |> Enum.chunk_by(fn {v, x} -> x == 1 end)
+      |> Enum.chunk_by(fn {_v, x} -> x == 1 end)
 
     # x-paths
     g =

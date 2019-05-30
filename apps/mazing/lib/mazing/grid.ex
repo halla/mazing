@@ -2,7 +2,7 @@ defmodule Mazing.Grid do
   @moduledoc """
   Grid wraps a graph implementation to facilitate working with, well, grids.
 
-  Assuming squa<e atm.
+  Assuming square atm.
   -------------
   | 7 | 8 | 9 |
   -------------
@@ -24,11 +24,13 @@ defmodule Mazing.Grid do
     # |> build_edges()
   end
 
+  @deprecated "to be removed"
   def build_edges(g) do
     vertices(g)
     |> Enum.reduce(g, fn v, acc -> build_edges(acc, v) end)
   end
 
+  @deprecated "to be removed"
   def build_edges(g, v) do
     g
     |> add_edge(v, right(g, v))
@@ -136,8 +138,8 @@ defmodule Mazing.Grid do
     ]
 
     Enum.zip(all, paths)
-    |> Enum.filter(fn {x, t} -> t end)
-    |> Enum.map(fn {x, t} -> x end)
+    |> Enum.filter(fn {_x, t} -> t end)
+    |> Enum.map(fn {x, _t} -> x end)
   end
 
   @doc """
@@ -149,7 +151,7 @@ defmodule Mazing.Grid do
   end
 
   def rows(g) do
-    Enum.chunk(Digraph.vertices(g), width(g))
+    Enum.chunk_every(Digraph.vertices(g), width(g))
   end
 
   def random_v(g) do

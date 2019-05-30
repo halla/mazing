@@ -14,6 +14,9 @@ defmodule Mazing.Digraph do
   """
   defstruct adj: nil
 
+  @doc """
+  Create new Digraph of n vertices
+  """
   def new(n) do
     vs = Enum.into 1..n, []
     #adj = for x <- 1..n, do: { x, MapSet.new }
@@ -23,11 +26,8 @@ defmodule Mazing.Digraph do
     %Digraph{ adj: adj }
   end
 
-
-
-  def add_edge(g, v, nil) do # to simplify grid building
-    g
-  end
+  # to simplify grid building
+  def add_edge(g, _v, nil), do: g
 
   @doc """
   Add an (undirected) edge to graph
@@ -44,12 +44,11 @@ defmodule Mazing.Digraph do
   Convinience method to allow tuples as edge definitions
   """
   def add_edge(g, {v, w}) do
-
     add_edge(g, v, w)
   end
 
   def add_edges(g, edges) do
-    Enum.reduce(edges, g, fn([v, w], acc) ->
+    Enum.reduce(edges, g, fn([v,w], acc) ->
       add_edge(acc, v, w)
     end)
   end
@@ -79,14 +78,15 @@ defmodule Mazing.Digraph do
 
   end
 
-  def has_edge(g, v1, nil), do: false
+  def has_edge(_g, _v1, nil), do: false
   def has_edge(g, v1, v2) do
     MapSet.member?(adj(g, v1), v2)
   end
 
 
+  def add_path(g, nil), do: g
   def add_path(g, path) do
-    edges = Enum.chunk(path, 2, 1)
+    edges = Enum.chunk_every(path, 2, 1, :discard)
     add_edges(g, edges)
   end
 end
