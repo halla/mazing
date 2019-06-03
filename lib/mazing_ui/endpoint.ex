@@ -1,5 +1,5 @@
 defmodule MazingUi.Endpoint do
-  use Phoenix.Endpoint, otp_app: :mazing_ui
+  use Phoenix.Endpoint, otp_app: :mazing
 
   socket("/socket", MazingUi.UserSocket,
     # or list of options
@@ -16,7 +16,7 @@ defmodule MazingUi.Endpoint do
   # when deploying your static files in production.
   plug(Plug.Static,
     at: "/",
-    from: :mazing_ui,
+    from: :mazing,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
   )

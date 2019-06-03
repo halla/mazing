@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :mazing_ui, MazingUi.Endpoint,
+config :mazing, MazingUi.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -22,7 +22,7 @@ config :mazing_ui, MazingUi.Endpoint,
 
 
 # Watch static and templates for browser reloading.
-config :mazing_ui, MazingUi.Endpoint,
+config :mazing, MazingUi.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
@@ -39,9 +39,9 @@ config :logger, :console, format: "[$level] $message\n"
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
 
-config :mazing_ui, MazingUi.Endpoint,
+config :mazing, MazingUi.Endpoint,
   live_reload: [
-    patterns: [      
+    patterns: [
       ~r{lib/mazing_ui/live/.*(ex)$}
     ]
   ]

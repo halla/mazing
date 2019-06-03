@@ -36,6 +36,10 @@ defmodule Mazing.Generator do
 
   @doc """
   Sidewinder algorithm.
+  * Proceed by row
+  * flip coin
+  * a 'run' is a sequence of 1's, eastern wall opened
+  * at end of run, pick one cell at random and open northern wall
   """
   def sidewinder(%Digraph{} = g) do
     rows =

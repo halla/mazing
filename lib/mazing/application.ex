@@ -1,15 +1,19 @@
-defmodule MazingUi.Application do
+defmodule Mazing.Application do
   use Application
+  require Logger
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec
+    Logger.debug("start() " <> to_string(Mix.env()))
+    import Supervisor.Spec, warn: false
 
     # Define workers and child supervisors to be supervised
+    # Starts a worker by calling: Jarjar.Worker.start_link(arg1, arg2, arg3)
+    # worker(Jarjar.Worker, [arg1, arg2, arg3]),
     children = [
-      # Start the endpoint when the application starts
       supervisor(MazingUi.Endpoint, []),
+      worker(Mazing.Maze, []),
       # Start your own worker by calling: MazingUi.Worker.start_link(arg1, arg2, arg3)
       # worker(MazingUi.Worker, [arg1, arg2, arg3]),
       # worker(Mazing.Maze, [])
@@ -20,7 +24,7 @@ defmodule MazingUi.Application do
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: MazingUi.Supervisor, max_restarts: 20, max_seconds: 1]
+    opts = [strategy: :one_for_one, name: Mazing.Supervisor, max_restarts: 20, max_seconds: 1]
     Supervisor.start_link(children, opts)
   end
 

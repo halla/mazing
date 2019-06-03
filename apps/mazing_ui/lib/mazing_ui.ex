@@ -1,3 +1,0 @@
-defmodule MazingUi do
-  
-end
