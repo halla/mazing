@@ -30,7 +30,7 @@ defmodule Mazing.Agent.Straightguy do
 
     heading =
       if not Enum.member?(paths, heading) do
-        heading = Enum.random(paths)
+        Enum.random(paths)
       else
         heading
       end
@@ -43,7 +43,7 @@ defmodule Mazing.Agent.Straightguy do
     {:reply, "Heading: #{state}", state}
   end
 
-  def handle_call({:agent_description}, _from, _state) do
-    {:reply, "I move in straight lines.", _state}
+  def handle_call({:agent_description}, _from, state) do
+    {:reply, "I move in straight lines.", state}
   end
 end

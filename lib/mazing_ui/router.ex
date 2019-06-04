@@ -19,7 +19,7 @@ defmodule MazingUi.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
-    get("avatar_local", PageController, :avatar_local)
+    get("/avatar_local", PageController, :avatar_local)
   end
 
   # Other scopes may use custom stacks.

@@ -4,5 +4,5 @@
     <li>
       <%= inspect o %>
     </li>
-  <%= end %>
+  <% end %>
 </ul>

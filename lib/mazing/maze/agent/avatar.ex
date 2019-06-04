@@ -34,8 +34,8 @@ defmodule Mazing.Agent.Avatar do
     {:reply, "You can go: #{inspect(paths)}", state}
   end
 
-  def handle_call({:agent_description}, _from, _state) do
-    {:reply, "You can control me.", _state}
+  def handle_call({:agent_description}, _from, state) do
+    {:reply, "You can control me.", state}
   end
 
   def handle_cast({:crash}, _state) do

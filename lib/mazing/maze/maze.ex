@@ -7,10 +7,7 @@ defmodule Mazing.Maze do
 
   use GenServer
   alias Mazing.Graph
-  alias Mazing.Digraph
   alias Mazing.Grid
-  alias Mazing.Node
-  alias Mazing.Edge
   alias Mazing.Maze
   alias Mazing.Generator
 

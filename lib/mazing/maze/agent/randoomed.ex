@@ -26,8 +26,8 @@ defmodule Mazing.Agent.Randoomed do
     {:noreply, state}
   end
 
-  def handle_call({:agent_description}, _from, _state) do
-    {:reply, "I move in random direction.", _state}
+  def handle_call({:agent_description}, _from, state) do
+    {:reply, "I move in random direction.", state}
   end
 
   def handle_call({:agent_info}, _from, state) do

@@ -25,7 +25,7 @@
         <select name="generator" id="generator-selector" >
           <%= for g <- @generators  do %>
           <option name="sdf" value="<%= g.code %>"  <%= if @generator == g.code, do: "selected" %> > <%= g.title %> </option>
-          <%= end %>
+          <% end %>
         </select>
         </form>
       </li>
@@ -36,7 +36,7 @@
         <select name="active-agent" id="object-selector">
           <%= for {code, _pos} <- @objects do %>
             <option value="<%= code %>"  <%= if @active_agent == code, do: "selected" %> > <%= code %> </options>
-          <%= end %>
+          <% end %>
         </select>
       </form>      
       </li>

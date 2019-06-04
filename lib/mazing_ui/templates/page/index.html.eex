@@ -16,7 +16,7 @@
       <select id="generator-selector">
         <%= for g <- @generators  do %>
         <option value="<%= g.code %>"> <%= g.title %> </option>
-        <%= end %>
+        <% end %>
       </select>
       <button id="maze-me">Maze me</button>
       <br>
@@ -24,7 +24,7 @@
       <select id="object-selector">
         <%= for {code, _pos} <- @objects do %>
           <option value="<%= code %>"> <%= code %> </options>
-        <%= end %>
+        <% end %>
       </select>
 
       <div class="info-text">
