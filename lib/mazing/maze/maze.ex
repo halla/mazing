@@ -156,6 +156,12 @@ defmodule Mazing.Maze do
     {:ok, state}
   end
 
+  defp objects_at_cell(objects, i_cell) do
+    objects
+    |> Enum.filter(fn {_object, v} -> v == i_cell end )
+    |> Enum.map(fn {object, _v} -> object end)
+  end
+
   # Other
   defp move_impl(state, object, direction) do
     g = state.graph
@@ -185,7 +191,12 @@ defmodule Mazing.Maze do
       end
 
     if v2 do
-      put_in(state.objects[object], v2)
+      collisions = objects_at_cell(state.objects, v2)
+      new_state = put_in(state.objects[object], v2)
+      if Enum.member?(collisions, :generator_trap) do # todo somethig smarter
+        Mazing.Agent.GeneratorTrap.trap()
+      end
+      new_state
     else
       state
     end
