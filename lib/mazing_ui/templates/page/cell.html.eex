@@ -1,8 +1,10 @@
 <div class="cell-inner" phx-click="set-start-cell" phx-value="<%= @cell %>" data-cell="<%= @cell %>" >
-  <div class="cell-bg" style="<%= cell_color(@bfs, @cell) %>" </div>
+  <div class="cell-bg" style="<%= cell_color(@bfs, @cell) %>"></div>
   <div class="cell-id"><%= @cell %></div>
   <span class="cell-info">
     <%= cell_content(@maze, @cell, @dfs, @bfs) %>
-  <span>
+  </span>
+
     <a class="cell-anchor"> </a>
+    <div class="object-icon"><%= raw show_object(@object)  %> </div>
 </div>

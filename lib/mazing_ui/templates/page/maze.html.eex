@@ -3,8 +3,8 @@
   <%= for row <- rows(@maze.graph) do %>
     <tr>
     <%= for c <- row do %>
-      <td class="<%= classes_for_cell(@maze, c) %>" >
-        <%= render "cell.html", maze: @maze, cell: c, bfs: @bfs, dfs: (if @dfs do @dfs else nil end) %>
+      <td class="cell <%= classes_for_cell(@maze, c) %>" >
+        <%= render "cell.html", maze: @maze, object: object_for_cell(@maze, c), cell: c, bfs: @bfs, dfs: (if @dfs do @dfs else nil end) %>
       </td>
     <% end %>
     </tr>

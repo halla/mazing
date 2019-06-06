@@ -59,6 +59,11 @@ defmodule MazingUi.PageView do
     cells
   end
 
+  def object_for_cell(maze, cell) do
+    Enum.filter(maze.objects, fn {obj, v} -> v == cell end)
+    |> List.first
+  end
+
   @doc """
    V -> trail lookup
   """
@@ -90,4 +95,24 @@ defmodule MazingUi.PageView do
     alpha = distances[cell] / max_dist
     "background: rgba(200,200,200, #{alpha})"
   end
+
+
+  def show_object(nil) do
+  end
+
+  @object_images %{
+    avatar: "avatar.svg",
+    randoomed: "randoomed.svg",
+    straightguy: "straightguy.svg",
+    generator_trap: "generator_trap.svg"
+  }
+
+  def show_object({obj, v}) do
+
+    if Map.has_key?(@object_images, obj) do
+      "<img src='/images/#{Map.get(@object_images, obj)}'> </img>"
+    end
+  end
+
+
 end
