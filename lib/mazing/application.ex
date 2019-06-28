@@ -20,7 +20,8 @@ defmodule Mazing.Application do
       worker(Mazing.Agent.Randoomed, []),
       worker(Mazing.Agent.Straightguy, []),
       worker(Mazing.Agent.Avatar, []),
-      worker(Mazing.Agent.GeneratorTrap, [])
+      worker(Mazing.Agent.GeneratorTrap, []),
+      worker(Mazing.Agent.CautiousWanderer, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -100,11 +100,13 @@ defmodule MazingUi.PageView do
   def show_object(nil) do
   end
 
-  @object_images %{
+  @object_images %{ #TODO should need to tweak views every time when adding agents
     avatar: "avatar.svg",
     randoomed: "randoomed.svg",
     straightguy: "straightguy.svg",
-    generator_trap: "generator_trap.svg"
+    generator_trap: "generator_trap.svg",
+    cautious_wanderer: "cautious_wanderer.svg"
+
   }
 
   def show_object({obj, v}) do
