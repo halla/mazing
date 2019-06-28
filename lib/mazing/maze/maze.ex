@@ -55,6 +55,16 @@ defmodule Mazing.Maze do
     GenServer.call(:maze_server, {:available_paths, object})
   end
 
+  @doc """
+  Look at all directions until next wall.
+  Return objects and distance.
+
+  Control should probably be other way round
+  """
+  def look_around(object) do
+    GenServer.call(:maze_server, {:look_around, object})
+  end
+
   def enter(object) do
     GenServer.call(:maze_server, {:enter, object})
   end
@@ -90,6 +100,13 @@ defmodule Mazing.Maze do
 
   def handle_call({:available_paths, object}, _from, state) do
     paths = Grid.available_paths(state.graph, state.objects[object])
+    {:reply, paths, state}
+  end
+
+  def handle_call({:look_around, object}, _from, state) do
+    paths = Grid.lines_of_sight(state.graph, state.objects[object])
+      |> Enum.map(fn {key, cells} -> {key, objects_at_cells(state.objects, cells) } end)
+      |> Enum.into(%{})
     {:reply, paths, state}
   end
 
@@ -154,6 +171,11 @@ defmodule Mazing.Maze do
   def code_change(old_vsn, state, extra) do
     IO.puts("New version. Moving out of #{old_vsn} #{inspect(extra)}")
     {:ok, state}
+  end
+
+  defp objects_at_cells(objects, cells) do
+    cells
+    |> Enum.map(fn cell -> objects_at_cell(objects, cell) end)
   end
 
   defp objects_at_cell(objects, i_cell) do

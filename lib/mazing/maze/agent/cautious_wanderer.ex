@@ -34,10 +34,24 @@ defmodule Mazing.Agent.CautiousWanderer do
     end
   end
 
+  def scary_direction?(lines_of_sight, direction) do
+    lines_of_sight[direction]
+      |> Enum.any?(fn x -> not Enum.empty?(x) end)
+  end
+
   def handle_info(:tick, %{heading: heading} = state) do
     paths = Maze.available_paths(@agentname) # TODO change control
       |> Enum.filter(fn x -> x != back(heading) end)
 
+    lines_of_sight = Maze.look_around(@agentname)
+
+    paths = if scary_direction?(lines_of_sight, heading) do
+      paths |> Enum.filter(fn x -> x != heading end)
+    else
+      paths
+    end
+
+    #IO.puts(inspect lines_of_sight)
     heading =
       cond do
         Enum.empty?(paths) ->
@@ -45,8 +59,9 @@ defmodule Mazing.Agent.CautiousWanderer do
         true ->
           Enum.random(paths)
       end
-
-    Maze.move(:maze_server, @agentname, heading) # TODO shouldnt need agentname
+    if not scary_direction?(lines_of_sight, heading) do # freeze?
+      Maze.move(:maze_server, @agentname, heading) # TODO shouldnt need agentname
+    end
 
     {:noreply, %{heading: heading}}
   end

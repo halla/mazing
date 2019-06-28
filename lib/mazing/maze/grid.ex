@@ -142,6 +142,52 @@ defmodule Mazing.Grid do
     |> Enum.map(fn {x, _t} -> x end)
   end
 
+
+  def line_down(g, v) do
+    if has_bottom_path(g, v) do
+      adj = bottom(g, v)
+      [ adj | line_down(g, adj)]
+    else
+      []
+    end
+  end
+
+  def line_up(g, v) do
+    if has_top_path(g, v) do
+      adj = top(g, v)
+      [ adj | line_up(g, adj)]
+    else
+      []
+    end
+  end
+
+  def line_left(g, v) do
+    if has_left_path(g, v) do
+      adj = left(g, v)
+      [ adj | line_left(g, adj)]
+    else
+      []
+    end
+  end
+
+  def line_right(g, v) do
+    if has_right_path(g, v) do
+      adj = right(g, v)
+      [ adj | line_right(g, adj)]
+    else
+      []
+    end
+  end
+
+
+  def lines_of_sight(g, v) do
+    down = line_down(g, v)
+    left = line_left(g, v)
+    right = line_right(g, v)
+    up = line_up(g, v)
+    %{ up: up, down: down, left: left, right: right}
+  end
+
   @doc """
   neighbor cells, whethere there is path or not.
   """
