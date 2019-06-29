@@ -4,7 +4,7 @@ defmodule Mazing.GridTest do
   alias Mazing.Grid
   import Mazing.Grid
   alias Mazing.Digraph
-  
+
   require Logger
   def debug(x) do
     IO.puts(inspect x)
@@ -17,7 +17,7 @@ defmodule Mazing.GridTest do
 
   test "v2 is right from v1 on 2x2 grid" do
     g = square_grid(2)
-    assert right(g, 1) == 2
+    assert neighbor(g, 1, :right) == 2
   end
 
 
@@ -70,7 +70,7 @@ defmodule Mazing.GridTest do
 
   test "nil is right from v2 on 2x2 grid" do
     g = square_grid(2)
-    assert right(g, 2) == nil
+    assert neighbor(g, 2, :right) == nil
   end
 
   test "2x2 grid last node has two neighbors" do # bidirectional

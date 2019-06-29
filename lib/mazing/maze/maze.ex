@@ -192,23 +192,23 @@ defmodule Mazing.Maze do
     v2 =
       case direction do
         :up ->
-          if Grid.has_top_path(g, v1) do
-            Grid.top(g, v1)
+          if Grid.has_path(g, v1, :top) do
+            Grid.neighbor(g, v1, :top)
           end
 
         :down ->
-          if Grid.has_bottom_path(g, v1) do
-            Grid.bottom(g, v1)
+          if Grid.has_path(g, v1, :bottom) do
+            Grid.neighbor(g, v1, :bottom)
           end
 
         :left ->
-          if Grid.has_left_path(g, v1) do
-            Grid.left(g, v1)
+          if Grid.has_path(g, v1, :left) do
+            Grid.neighbor(g, v1, :left)
           end
 
         :right ->
-          if Grid.has_right_path(g, v1) do
-            Grid.right(g, v1)
+          if Grid.has_path(g, v1, :right) do
+            Grid.neighbor(g, v1, :right)
           end
       end
 

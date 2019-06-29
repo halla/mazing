@@ -33,8 +33,8 @@ defmodule Mazing.Grid do
   @deprecated "to be removed"
   def build_edges(g, v) do
     g
-    |> add_edge(v, right(g, v))
-    |> add_edge(v, top(g, v))
+    |> add_edge(v, neighbor(g, v, :right))
+    |> add_edge(v, neighbor(g, v, :top))
   end
 
   @doc """
@@ -63,78 +63,57 @@ defmodule Mazing.Grid do
     div(v - 1, height(g))
   end
 
-  def has_right(g, v) do
-    x(g, v) < width(g) - 1
-  end
+  def has_neighbor(g, v, :left), do: x(g, v) > 0
+  def has_neighbor(g, v, :right), do: x(g, v) < width(g) - 1
+  def has_neighbor(g, v, :top), do:   y(g, v) < height(g) - 1
+  def has_neighbor(g, v, :bottom), do: y(g, v) > 0
 
-  def has_top(g, v) do
-    y(g, v) < height(g) - 1
-  end
-
-  def has_left(g, v) do
-    x(g, v) > 0
-  end
-
-  def has_bottom(g, v) do
-    y(g, v) > 0
-  end
-
-  def right(g, v) do
-    if has_right(g, v) do
-      v + 1
+  def neighbor(g, v, :right) do
+    if has_neighbor(g, v, :right) do
+      v+1
     else
       nil
     end
   end
 
-  def top(g, v) do
-    if has_top(g, v) do
+  def neighbor(g, v, :top) do
+    if has_neighbor(g, v, :top) do
       v + width(g)
     else
       nil
     end
   end
 
-  def left(g, v) do
-    if has_left(g, v) do
+  def neighbor(g, v, :left) do
+    if has_neighbor(g, v, :left) do
       v - 1
     else
       nil
     end
   end
 
-  def bottom(g, v) do
-    if has_bottom(g, v) do
+  def neighbor(g, v, :bottom) do
+    if has_neighbor(g, v, :bottom) do
       v - width(g)
     else
       nil
     end
   end
 
-  def has_right_path(g, v) do
-    Digraph.has_edge(g, v, right(g, v))
-  end
+#  def has_path(g, v, direction) do
+#    Digraph.has_edge(g, v, adjacent(g, v, direction))
+#  end
 
-  def has_top_path(g, v) do
-    Digraph.has_edge(g, v, top(g, v))
-  end
-
-  def has_left_path(g, v) do
-    Digraph.has_edge(g, v, left(g, v))
-  end
-
-  def has_bottom_path(g, v) do
-    Digraph.has_edge(g, v, bottom(g, v))
-  end
+  def has_path(g, v, direction), do: Digraph.has_edge(g, v, neighbor(g, v, direction))
 
   def available_paths(g, v) do
-    all = [:down, :up, :left, :right]
-
+    all = [:down, :up, :left, :right] # TODO top vs up mismatch
+    #paths = all |> Enum.map(fn x -> has_path(g, v, x) end)
     paths = [
-      has_bottom_path(g, v),
-      has_top_path(g, v),
-      has_left_path(g, v),
-      has_right_path(g, v)
+      has_path(g, v, :bottom),
+      has_path(g, v, :top),
+      has_path(g, v, :left),
+      has_path(g, v, :right)
     ]
 
     Enum.zip(all, paths)
@@ -142,49 +121,20 @@ defmodule Mazing.Grid do
     |> Enum.map(fn {x, _t} -> x end)
   end
 
-
-  def line_down(g, v) do
-    if has_bottom_path(g, v) do
-      adj = bottom(g, v)
-      [ adj | line_down(g, adj)]
+  def line(g, v, direction) do
+    if has_path(g, v, direction) do
+      adj = neighbor(g, v, direction)
+      [ adj | line(g, adj, direction)]
     else
       []
     end
   end
-
-  def line_up(g, v) do
-    if has_top_path(g, v) do
-      adj = top(g, v)
-      [ adj | line_up(g, adj)]
-    else
-      []
-    end
-  end
-
-  def line_left(g, v) do
-    if has_left_path(g, v) do
-      adj = left(g, v)
-      [ adj | line_left(g, adj)]
-    else
-      []
-    end
-  end
-
-  def line_right(g, v) do
-    if has_right_path(g, v) do
-      adj = right(g, v)
-      [ adj | line_right(g, adj)]
-    else
-      []
-    end
-  end
-
 
   def lines_of_sight(g, v) do
-    down = line_down(g, v)
-    left = line_left(g, v)
-    right = line_right(g, v)
-    up = line_up(g, v)
+    down = line(g, v, :bottom)
+    left = line(g, v, :left)
+    right = line(g, v, :right)
+    up = line(g, v, :top)
     %{ up: up, down: down, left: left, right: right}
   end
 
@@ -192,7 +142,7 @@ defmodule Mazing.Grid do
   neighbor cells, whethere there is path or not.
   """
   def neighbor_cells(g, v) do
-    [top(g, v), right(g, v)]
+    [neighbor(g, v, :top), neighbor(g, v, :right)]
     |> Enum.reject(fn x -> x == nil end)
   end
 

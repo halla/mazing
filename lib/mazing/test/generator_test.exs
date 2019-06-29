@@ -14,7 +14,7 @@ defmodule Mazing.GeneratorTest do
     g = Graph.square_grid(5)
     e = Generator.random_neighbor_edge(g, Enum.at(g.nodes, 0))
     assert Enum.count(e.nodes) == 2
-    
+
   end
 
   test "binary algorith works somehow" do
@@ -28,7 +28,7 @@ defmodule Mazing.GeneratorTest do
     g = Grid.square_grid(5)
     v1 = 1
     {v1, v2} = Generator.random_neighbor_edge(g, v1)
-    assert (v2 == Grid.right(g, v1) || v2 == Grid.top(g, v1))
+    assert (v2 == Grid.neighbor(g, v1, :right) || v2 == Grid.top(g, v1))
   end
 
   test "binary algorith works somehow in digraph/grid" do
