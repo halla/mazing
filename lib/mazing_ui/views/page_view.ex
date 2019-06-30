@@ -22,10 +22,10 @@ defmodule MazingUi.PageView do
     trs = trails(maze)
     obs = objects(maze)
 
-    t = if Grid.has_path(g, v, :top) do "top" else "" end
-    r = if Grid.has_path(g, v, :right) do "right" else "" end
-    l = if Grid.has_path(g, v, :left) do "left" else "" end
-    b = if Grid.has_path(g, v, :bottom) do "bottom" else "" end
+    t = if Grid.has_path(g, v, :north) do "top" else "" end
+    r = if Grid.has_path(g, v, :east) do "right" else "" end
+    l = if Grid.has_path(g, v, :west) do "left" else "" end
+    b = if Grid.has_path(g, v, :south) do "bottom" else "" end
 
     obj_class = Map.get(obs, v, [])
       |> Enum.map(fn x -> to_string(x) end)

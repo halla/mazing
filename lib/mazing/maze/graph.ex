@@ -87,19 +87,19 @@ defmodule Mazing.Graph do
     |> round
   end
 
-  def has_neighbor(%Graph{} = g, %Node{} = node, :top) do
+  def has_neighbor(%Graph{} = g, %Node{} = node, :north) do
     has_edge?(g, node, %Node{x: node.x, y: node.y - 1})
   end
 
-  def has_neighbor(%Graph{} = g, %Node{} = node, :bottom) do
+  def has_neighbor(%Graph{} = g, %Node{} = node, :south) do
     has_edge?(g, node, %Node{x: node.x, y: node.y + 1})
   end
 
-  def has_neighbor(%Graph{} = g, %Node{} = node, :left) do
+  def has_neighbor(%Graph{} = g, %Node{} = node, :west) do
     has_edge?(g, node, %Node{x: node.x - 1, y: node.y})
   end
 
-  def has_neighbor(%Graph{} = g, %Node{} = node, :right) do
+  def has_neighbor(%Graph{} = g, %Node{} = node, :east) do
     has_edge?(g, node, %Node{x: node.x + 1, y: node.y})
   end
 
@@ -137,10 +137,10 @@ defmodule Mazing.Graph do
 
   def as_cell(%Graph{} = g, %Node{} = node) do
     %Cell{
-      top: has_neighbor(g, node, :top),
-      right: has_neighbor(g, node, :right),
-      bottom: has_neighbor(g, node, :bottom),
-      left: has_neighbor(g, node, :left)
+      north: has_neighbor(g, node, :north),
+      east: has_neighbor(g, node, :east),
+      south: has_neighbor(g, node, :south),
+      west: has_neighbor(g, node, :west)
     }
   end
 

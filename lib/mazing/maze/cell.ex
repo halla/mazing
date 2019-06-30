@@ -4,5 +4,5 @@ defmodule Mazing.Cell do
   The struct tells whether there is a passage from the (square) cell to an adjacent one.
   """
 
-  defstruct top: true, right: true, bottom: true, left: true
+  defstruct north: true, east: true, south: true, west: true
 end

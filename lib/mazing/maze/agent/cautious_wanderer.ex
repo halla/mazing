@@ -22,15 +22,15 @@ defmodule Mazing.Agent.CautiousWanderer do
   def init(_args) do
     :timer.send_interval(1_000, :tick)
     Maze.enter(@agentname)
-    {:ok, %{heading: :up}}
+    {:ok, %{heading: :north}}
   end
 
   defp back(heading) do
     case heading do
-      :up -> :down
-      :left -> :right
-      :down -> :up
-      :right -> :left
+      :north -> :south
+      :west -> :east
+      :south -> :north
+      :east -> :west
     end
   end
 

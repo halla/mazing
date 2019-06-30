@@ -28,7 +28,7 @@ defmodule Mazing.GeneratorTest do
     g = Grid.square_grid(5)
     v1 = 1
     {v1, v2} = Generator.random_neighbor_edge(g, v1)
-    assert (v2 == Grid.neighbor(g, v1, :right) || v2 == Grid.top(g, v1))
+    assert (v2 == Grid.neighbor(g, v1, :east) || v2 == Grid.top(g, v1))
   end
 
   test "binary algorith works somehow in digraph/grid" do

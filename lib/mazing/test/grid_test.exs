@@ -17,7 +17,7 @@ defmodule Mazing.GridTest do
 
   test "v2 is right from v1 on 2x2 grid" do
     g = square_grid(2)
-    assert neighbor(g, 1, :right) == 2
+    assert neighbor(g, 1, :east) == 2
   end
 
 
@@ -70,7 +70,7 @@ defmodule Mazing.GridTest do
 
   test "nil is right from v2 on 2x2 grid" do
     g = square_grid(2)
-    assert neighbor(g, 2, :right) == nil
+    assert neighbor(g, 2, :east) == nil
   end
 
   test "2x2 grid last node has two neighbors" do # bidirectional
