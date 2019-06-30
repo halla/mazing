@@ -71,50 +71,32 @@ defmodule Mazing.Grid do
   def neighbor(g, v, :east) do
     if has_neighbor(g, v, :east) do
       v+1
-    else
-      nil
     end
   end
 
   def neighbor(g, v, :north) do
     if has_neighbor(g, v, :north) do
       v + width(g)
-    else
-      nil
     end
   end
 
   def neighbor(g, v, :west) do
     if has_neighbor(g, v, :west) do
       v - 1
-    else
-      nil
     end
   end
 
   def neighbor(g, v, :south) do
     if has_neighbor(g, v, :south) do
       v - width(g)
-    else
-      nil
     end
   end
-
-#  def has_path(g, v, direction) do
-#    Digraph.has_edge(g, v, adjacent(g, v, direction))
-#  end
 
   def has_path(g, v, direction), do: Digraph.has_edge(g, v, neighbor(g, v, direction))
 
   def available_paths(g, v) do
     all = [:south, :north, :west, :east] # TODO top vs up mismatch
-    #paths = all |> Enum.map(fn x -> has_path(g, v, x) end)
-    paths = [
-      has_path(g, v, :south),
-      has_path(g, v, :north),
-      has_path(g, v, :west),
-      has_path(g, v, :east)
-    ]
+    paths = all |> Enum.map(fn x -> has_path(g, v, x) end)
 
     Enum.zip(all, paths)
     |> Enum.filter(fn {_x, t} -> t end)
@@ -131,11 +113,9 @@ defmodule Mazing.Grid do
   end
 
   def lines_of_sight(g, v) do
-    south = line(g, v, :south)
-    west = line(g, v, :west)
-    east = line(g, v, :east)
-    north = line(g, v, :north)
-    %{ north: north, south: south, west: west, east: east}
+    [:south, :west, :north, :east]
+      |> Enum.map(fn direction -> {direction, line(g, v, direction)} end)
+      |> Enum.into(%{})
   end
 
   @doc """

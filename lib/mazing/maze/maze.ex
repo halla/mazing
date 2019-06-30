@@ -190,26 +190,8 @@ defmodule Mazing.Maze do
     v1 = state.objects[object]
 
     v2 =
-      case direction do
-        :north ->
-          if Grid.has_path(g, v1, :north) do
-            Grid.neighbor(g, v1, :north)
-          end
-
-        :south ->
-          if Grid.has_path(g, v1, :south) do
-            Grid.neighbor(g, v1, :south)
-          end
-
-        :west ->
-          if Grid.has_path(g, v1, :west) do
-            Grid.neighbor(g, v1, :west)
-          end
-
-        :east ->
-          if Grid.has_path(g, v1, :east) do
-            Grid.neighbor(g, v1, :east)
-          end
+      if Grid.has_path(g, v1, direction) do
+        Grid.neighbor(g, v1, direction)
       end
 
     if v2 do
