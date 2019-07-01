@@ -1,8 +1,21 @@
-<h3>Agent info</h3>
-Name: <%= @name %>
-<br>
-Info: <%= @info %>
-<br>
-Description: <%= @description %>
-
- <button id="crash-me" phx-click="crash_me" phx-value="<%= @agent %>">Crash me</button>
+<div class="agent-info-inner">
+    <h3>Agent info</h3>
+    <div class="item agent-name">
+        <span class="key">Name:</span><span class="value"><%= @name %></span>
+    </div>
+    <br>
+    Info: <%= @info %>
+    <br>
+    Description: <%= @description %>
+    <div class="agent-image">
+        <%= raw show_object(@agent) %>
+    </div>
+    <button id="crash-me" phx-click="crash_me" phx-value="<%= @agent %>">Crash me</button>
+     <form phx-change="active-agent-change">
+        <select name="active-agent" id="object-selector">
+          <%= for {code, _pos} <- @objects do %>
+            <option value="<%= code %>"  <%= if @agent == code, do: "selected" %> > <%= code %> </options>
+          <% end %>
+        </select>
+      </form>      
+ </div>

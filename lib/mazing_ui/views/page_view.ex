@@ -109,8 +109,11 @@ defmodule MazingUi.PageView do
 
   }
 
-  def show_object({obj, v}) do
+  def show_object({obj, _v}) do
+    show_object(obj)
+  end
 
+  def show_object(obj) do
     if Map.has_key?(@object_images, obj) do
       "<img src='/images/#{Map.get(@object_images, obj)}'> </img>"
     end

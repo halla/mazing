@@ -48,4 +48,7 @@ td.cell img { position: absolute; top:0; right: 0; left: 0; bottom: 0; width: 80
 
 .info-text { color: #555; margin: 2em 0; font-style: italic}
 
-
+.agent-info-inner {}
+.agent-info-inner h3 { font-size: 1rem; color: #555; }
+.agent-info-inner .key { color: #555; font-size: 0.9rem; margin-right: 1em }
+.agent-info-inner .agent-name .value { font-size: 1.2rem }
