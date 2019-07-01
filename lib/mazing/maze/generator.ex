@@ -71,7 +71,7 @@ defmodule Mazing.Generator do
     g =
       Enum.reduce(runs, g, fn run, acc ->
         {v, _} = Enum.random(run)
-        Digraph.add_edge(acc, v, Grid.top(g, v))
+        Digraph.add_edge(acc, v, Grid.neighbor(g, v, :north))
       end)
 
     g

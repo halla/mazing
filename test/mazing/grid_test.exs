@@ -23,27 +23,27 @@ defmodule Mazing.GridTest do
 
   test "v1 has right on 2x2 grid" do
     g = square_grid(2)
-    assert has_right(g, 1) == true
+    assert has_neighbor(g, 1, :east) == true
   end
 
   test "v2 has top on 2x2 grid" do
     g = square_grid(2)
-    assert has_top(g, 2) == true
+    assert has_neighbor(g, 2, :north) == true
   end
 
   test "v2 doesn't have right on 2x2 grid" do
     g = square_grid(2)
-    assert has_right(g, 2) == false
+    assert has_neighbor(g, 2, :east) == false
   end
 
   test "v4 doesn't have right on 2x2 grid" do
     g = square_grid(2)
-    assert has_right(g, 4) == false
+    assert has_neighbor(g, 4, :east) == false
   end
 
   test "v4 doesn't have top on 2x2 grid" do
     g = square_grid(2)
-    assert has_top(g, 4) == false
+    assert has_neighbor(g, 4, :north) == false
   end
 
 
@@ -87,7 +87,7 @@ defmodule Mazing.GridTest do
 
   test "5x5 grid 11 is top of 6" do
     g = square_grid(5)
-    assert top(g, 6) == 11
+    assert neighbor(g, 6, :north) == 11
   end
 
   test "available_paths" do
